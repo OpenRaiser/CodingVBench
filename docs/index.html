@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CodingVBench | Rethinking Video Quality Evaluation</title>
+  <meta name="description" content="CodingVBench tests video evaluators on matched code-rendered and pixel-generated videos, with human labels and controlled program edits." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+
+    :root {
+      color-scheme: light;
+      --bg: #eef2f7;
+      --bg-elev: #ffffff;
+      --line: #d3dce8;
+      --text: #101828;
+      --muted: #5a6a7e;
+      --accent: #1a6fd4;
+      --accent-hot: #0f5bb8;
+      --accent-dim: rgba(26, 111, 212, 0.12);
+      --warm: #e26d52;
+      --warm-dim: rgba(226, 109, 82, 0.12);
+      --teal: #0f8f86;
+      --teal-dim: rgba(15, 143, 134, 0.12);
+      --card: rgba(255,255,255,0.78);
+      --card-solid: #ffffff;
+      --max: 1120px;
+      --topbar: rgba(246, 248, 252, 0.78);
+      --hover-line: #b4c2d6;
+      --hover-line-strong: #8599b3;
+      --abstract-bg: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(240,246,255,0.9) 50%, rgba(236,248,246,0.88));
+      --abstract-text: #243044;
+      --soft-fg: #3c4c63;
+      --soft-bg: #e7eef8;
+      --score: #0f5bb8;
+      --table-head: #eef3f9;
+      --table-hover: #f3f7fc;
+      --table-group: #e7f1fb;
+      --hi: #0f5bb8;
+      --cite-bg: #f7f9fc;
+      --cite-fg: #243044;
+      --shadow: 0 18px 40px rgba(16, 36, 64, 0.08);
+      --shadow-sm: 0 8px 22px rgba(16, 36, 64, 0.055);
+      --font-head: "Bricolage Grotesque", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+      --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-body);
+      color: var(--text); line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(900px 520px at 12% -12%, rgba(26,111,212,0.18), transparent 60%),
+        radial-gradient(780px 460px at 92% 0%, rgba(226,109,82,0.10), transparent 55%),
+        radial-gradient(700px 420px at 70% 28%, rgba(15,143,134,0.08), transparent 50%),
+        linear-gradient(180deg, #f7f9fd 0%, #e9eef6 38%, #eef2f7 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(16,24,40,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16,24,40,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 20%, transparent 75%);
+    }
+    .topbar, main, footer { position: relative; z-index: 1; }
+    a { color: var(--accent-hot); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(var(--max), calc(100% - 2.5rem)); margin: 0 auto; }
+    .mono { font-family: var(--font-mono); }
+    .topbar {
+      position: sticky; top: 0; z-index: 30; backdrop-filter: blur(16px) saturate(1.2);
+      background: var(--topbar); border-bottom: 1px solid transparent;
+    }
+    .topbar.is-scrolled { border-bottom-color: var(--line); box-shadow: 0 8px 24px rgba(16,36,64,0.04); }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 0.65rem; color: var(--text);
+      font-family: var(--font-head); font-weight: 800; letter-spacing: 0.04em;
+      text-transform: uppercase; font-size: 0.95rem;
+    }
+    .brand:hover { text-decoration: none; }
+    .dot {
+      width: 0.62rem; height: 0.62rem; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      box-shadow: 0 0 0 4px rgba(26,111,212,0.14);
+    }
+    .nav { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .nav a {
+      color: var(--muted); font-size: 0.84rem; font-weight: 600;
+      padding: 0.38rem 0.78rem; border: 1px solid transparent; border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+    }
+    .nav a:hover { color: var(--text); border-color: var(--hover-line); text-decoration: none; background: #fff; }
+    .topbar-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .hero {
+      padding: 5rem 0 3rem;
+      position: relative;
+    }
+    .hero .wrap { position: relative; }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; z-index: 0;
+    }
+    .hero-orb.a {
+      width: 280px; height: 280px; top: -40px; right: 4%;
+      background: rgba(26,111,212,0.22);
+    }
+    .hero-orb.b {
+      width: 220px; height: 220px; top: 120px; right: 22%;
+      background: rgba(226,109,82,0.14);
+    }
+    .hero-orb.c {
+      width: 180px; height: 180px; top: 40px; left: 55%;
+      background: rgba(15,143,134,0.12);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center;
+      color: var(--accent-hot); font-family: var(--font-mono);
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      padding: 0.42rem 0.8rem 0.42rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(26,111,212,0.18);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+    }
+    .brand-mark {
+      margin: 0 0 0.55rem;
+      font-family: var(--font-head);
+      font-size: clamp(2.6rem, 7vw, 4.4rem);
+      line-height: 0.95; font-weight: 800; letter-spacing: -0.045em;
+      background: linear-gradient(105deg, #0d1b2e 0%, #1a6fd4 48%, #0f8f86 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      max-width: 14ch;
+    }
+    h1, .hero-sub {
+      margin: 0 0 1.15rem;
+      font-family: var(--font-head);
+      font-size: clamp(1.25rem, 2.8vw, 1.85rem);
+      line-height: 1.22; font-weight: 650; letter-spacing: -0.025em;
+      max-width: 28ch; color: var(--text);
+    }
+    .lede {
+      margin: 0 0 1.5rem; color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.18rem); max-width: 46rem;
+    }
+    .lede strong { color: var(--text); font-weight: 650; }
+    .authors { display: flex; flex-wrap: wrap; gap: 0.35rem 0.85rem; margin: 0 0 0.55rem; padding: 0; list-style: none; font-size: 0.95rem; }
+    .affil { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 2.1rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.62rem 1.05rem; border-radius: 999px;
+      border: 1px solid var(--line); color: var(--text); font-size: 0.9rem; font-weight: 650;
+      background: rgba(255,255,255,0.72); cursor: pointer; backdrop-filter: blur(6px);
+    }
+    .btn:hover { text-decoration: none; border-color: var(--hover-line-strong); background: #fff; }
+    .btn.solid {
+      background: linear-gradient(135deg, #1a6fd4, #0f5bb8);
+      color: #fff; border-color: transparent;
+      box-shadow: 0 12px 28px rgba(26,111,212,0.28);
+    }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.85rem; }
+    .stat {
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
+      border: 1px solid rgba(211,220,232,0.9); border-radius: var(--radius);
+      padding: 1.15rem 1.1rem 1.05rem; box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+    }
+    .stat::before {
+      content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--teal), var(--warm));
+      opacity: 0.9;
+    }
+    .stat b {
+      display: block; font-family: var(--font-head);
+      font-size: 1.55rem; font-weight: 800; margin-bottom: 0.35rem; letter-spacing: -0.03em;
+    }
+    .stat span { color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+    section { padding: 3.1rem 0; border-top: 1px solid rgba(211,220,232,0.85); }
+    .sec-label {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      color: var(--accent-hot); font-family: var(--font-mono);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      margin: 0 0 0.85rem; padding: 0.28rem 0.65rem; border-radius: 999px;
+      background: var(--accent-dim); border: 1px solid rgba(26,111,212,0.12);
+    }
+    h2 {
+      margin: 0 0 0.85rem; font-family: var(--font-head);
+      font-size: clamp(1.45rem, 2.8vw, 2rem); letter-spacing: -0.03em; font-weight: 750;
+    }
+    .sec-lead { color: var(--muted); max-width: 46rem; margin: 0 0 1.5rem; font-size: 1.02rem; }
+    .features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.95rem; }
+    .feature {
+      background: linear-gradient(165deg, rgba(255,255,255,0.95), rgba(248,250,253,0.85));
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.25rem 1.3rem 1.25rem 1.35rem; box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden;
+    }
+    .feature::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--teal));
+    }
+    .feature .tag {
+      display: inline-block; color: var(--accent-hot); background: var(--accent-dim); border-radius: 999px;
+      padding: 0.2rem 0.6rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.65rem;
+    }
+    .feature h3 { margin: 0 0 0.45rem; font-family: var(--font-head); font-size: 1.12rem; font-weight: 700; }
+    .feature p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+    .abstract {
+      background: var(--abstract-bg); border: 1px solid var(--line); border-radius: 22px;
+      padding: 1.5rem 1.55rem; color: var(--abstract-text); font-size: 1.02rem;
+      box-shadow: var(--shadow-sm); backdrop-filter: blur(8px);
+      line-height: 1.65;
+    }
+    .pipeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+    .step {
+      background: linear-gradient(180deg, #fff, #f7f9fc);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.15rem 1.05rem; min-height: 9rem; box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+    .step .n {
+      color: var(--accent-hot); font-family: var(--font-mono); font-size: 0.78rem;
+      font-weight: 600; margin-bottom: 0.55rem; letter-spacing: 0.08em;
+    }
+    .step h3 { margin: 0 0 0.4rem; font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; }
+    .step p { margin: 0; color: var(--muted); font-size: 0.86rem; }
+    .figure-grid {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.25rem; margin-top: 1.35rem;
+    }
+    .figure-card {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      background: var(--card-solid); border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .figure-card img {
+      display: block; width: 100%; height: auto;
+      background: #f4f7fb;
+    }
+    .figure-cap {
+      padding: 0.85rem 1.1rem 1.05rem; color: var(--muted); font-size: 0.86rem;
+      text-align: center; line-height: 1.45;
+    }
+    .ph { aspect-ratio: 16/9; display: grid; place-items: center; color: var(--muted); background: #0a0a0a; }
+    .gallery-filters { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0 0 1.1rem; }
+    .chip {
+      border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px;
+      padding: 0.32rem 0.75rem; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    }
+    .chip:hover { color: var(--text); border-color: var(--hover-line); }
+    .chip.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .filter-hint { color: var(--muted); font-size: 0.82rem; margin: -0.55rem 0 1rem; min-height: 1.2em; }
+    .compare-controls {
+      display: flex; flex-wrap: wrap; gap: 0.75rem 1.1rem; align-items: end; margin: 0 0 1.1rem;
+      padding: 0.9rem 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    }
+    .control { display: flex; flex-direction: column; gap: 0.28rem; min-width: 9.5rem; }
+    .control label { color: var(--muted); font-size: 0.72rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+    .control select {
+      appearance: none; background: var(--bg-elev); color: var(--text); border: 1px solid var(--line);
+      border-radius: 999px; padding: 0.42rem 0.85rem; font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    }
+    .swap-btn {
+      border: 1px solid var(--line); background: transparent; color: var(--text); border-radius: 999px;
+      padding: 0.42rem 0.85rem; font: inherit; font-size: 0.84rem; font-weight: 650; cursor: pointer; align-self: end;
+    }
+    .compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .compare-card { box-shadow: var(--shadow); background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .compare-head { display: flex; flex-wrap: wrap; gap: 0.4rem 0.55rem; align-items: center; padding: 0.85rem 1rem 0.7rem; }
+    .compare-head h3 { margin: 0; flex: 1 1 100%; font-size: 0.98rem; font-weight: 650; }
+    .mini-tag {
+      font-size: 0.7rem; font-weight: 650; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 0.18rem 0.45rem; border-radius: 999px; color: var(--accent-hot); background: var(--accent-dim);
+    }
+    .mini-tag.soft { color: var(--soft-fg); background: var(--soft-bg); }
+    .split-frame { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; user-select: none; }
+    .pane { position: absolute; inset: 0; width: 50%; overflow: hidden; cursor: pointer; transition: width 0.28s ease, left 0.28s ease, opacity 0.2s ease; }
+    .pane.left { left: 0; } .pane.right { left: 50%; }
+    .pane video {
+      position: absolute; top: 0; height: 100%; width: 200%; max-width: none;
+      object-fit: contain; background: #000; pointer-events: none; opacity: 0;
+    }
+    .pane video.ready { opacity: 1; }
+    .pane.left video { left: 0; } .pane.right video { right: 0; left: auto; }
+    .split-frame[data-mode="left"] .pane.left { width: 100%; left: 0; z-index: 2; }
+    .split-frame[data-mode="left"] .pane.right { width: 0; left: 100%; opacity: 0; pointer-events: none; }
+    .split-frame[data-mode="left"] .pane.left video { width: 100%; }
+    .split-frame[data-mode="right"] .pane.right { width: 100%; left: 0; z-index: 2; }
+    .split-frame[data-mode="right"] .pane.left { width: 0; left: 0; opacity: 0; pointer-events: none; }
+    .split-frame[data-mode="right"] .pane.right video { width: 100%; right: auto; left: 0; }
+    .divider {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%);
+      background: rgba(255,255,255,0.55); box-shadow: 0 0 0 1px rgba(0,0,0,0.35); z-index: 3; pointer-events: none;
+    }
+    .split-frame:not([data-mode="split"]) .divider { opacity: 0; }
+    .pane-label {
+      position: absolute; top: 0.55rem; z-index: 4; padding: 0.22rem 0.5rem; border-radius: 999px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      background: rgba(0,0,0,0.55); color: #fff; pointer-events: none;
+    }
+    .pane.left .pane-label { left: 0.55rem; } .pane.right .pane-label { right: 0.55rem; left: auto; }
+    .prompt-overlay {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; padding: 1.35rem 1rem 0.9rem;
+      background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.88) 30%, rgba(0,0,0,0.94));
+      opacity: 0; pointer-events: none; transition: opacity 0.18s ease;
+    }
+    .split-frame:hover .prompt-overlay { opacity: 1; }
+    .split-frame.is-interacting .prompt-overlay { opacity: 0 !important; }
+    .prompt-eyebrow { color: var(--accent-hot); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .prompt-text { margin: 0; color: #f2f2f2; font-size: 0.82rem; line-height: 1.45; max-height: 5.6em; overflow-y: auto; white-space: pre-wrap; }
+    .hint {
+      position: absolute; left: 50%; bottom: 0.55rem; transform: translateX(-50%); z-index: 4;
+      padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.68rem; color: #ddd; background: rgba(0,0,0,0.45); pointer-events: none;
+    }
+    .split-frame:not([data-mode="split"]) .hint, .split-frame:hover .hint, .split-frame.is-interacting .hint { opacity: 0; }
+    
+    .score-disclosure {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bg-elev);
+      overflow: hidden;
+    }
+    .score-disclosure > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      padding: 0.55rem 0.75rem;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 650;
+      user-select: none;
+    }
+    .score-disclosure > summary::-webkit-details-marker { display: none; }
+    .score-disclosure > summary .chev {
+      color: var(--muted);
+      font-size: 0.75rem;
+      transition: transform 0.18s ease;
+    }
+    .score-disclosure[open] > summary .chev { transform: rotate(180deg); }
+    .score-disclosure > summary {
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .score-disclosure > summary .sum-meta {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.74rem;
+      line-height: 1.35;
+      white-space: normal;
+      overflow: visible;
+      flex: 1 1 100%;
+      order: 3;
+      text-align: left;
+      margin-top: 0.15rem;
+    }
+    .score-disclosure .score-stack {
+      padding: 0 0.75rem 0.75rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .compare-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; padding: 0.7rem 1rem 0.9rem; }
+    .score-stack { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 0; }
+    .score-stack .line { color: var(--muted); font-size: 0.78rem; line-height: 1.35; }
+    .score-stack .line strong { color: var(--text); font-weight: 650; }
+    .score-stack .reason { color: var(--muted); font-size: 0.74rem; line-height: 1.4; margin: 0.05rem 0; }
+
+    .score-note { color: var(--muted); font-size: 0.72rem; line-height: 1.4; margin-bottom: 0.35rem; }
+    .score-summary { color: var(--text); font-size: 0.84rem; line-height: 1.45; margin: 0 0 0.55rem; }
+    .score-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin: 0 0 0.45rem; }
+    .score-table th, .score-table td {
+      border-bottom: 1px solid var(--line); padding: 0.28rem 0.35rem; text-align: left; vertical-align: top;
+    }
+    .score-table th:not(:first-child), .score-table td:not(:first-child) { text-align: center; }
+    .score-table th { color: var(--muted); font-weight: 650; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .score-table .dim { color: var(--muted); font-size: 0.68rem; text-transform: none; letter-spacing: 0; }
+    .score-meta { color: var(--muted); font-size: 0.76rem; line-height: 1.4; margin: 0 0 0.4rem; }
+    .score-meta strong { color: var(--text); font-weight: 650; }
+    .score-stack .reason .who { color: var(--accent-hot); font-weight: 650; margin-right: 0.25rem; }
+
+    .filter-hint { display: none; }
+    .ghost-btn {
+      border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px;
+      padding: 0.28rem 0.65rem; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .empty { grid-column: 1 / -1; border: 1px solid var(--line); border-radius: 16px; padding: 2rem; text-align: center; color: var(--muted); }
+    .results-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow-sm); }
+    table.results { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 640px; }
+    table.results th, table.results td { padding: 0.7rem 0.85rem; border-bottom: 1px solid var(--line); text-align: right; }
+    table.results th:first-child, table.results td:first-child { text-align: left; }
+    table.results thead th { color: var(--muted); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; background: var(--table-head); }
+    table.results tbody tr:hover { background: var(--table-hover); }
+    table.results .group-row td { color: var(--accent-hot); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--table-group); text-align: left; }
+    table.results .hi { color: var(--hi); font-weight: 700; }
+    .results-note { color: var(--muted); font-size: 0.86rem; margin: 0.85rem 0 0; }
+    .data-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 0.85rem; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem 1.25rem; box-shadow: var(--shadow-sm); }
+    .panel h3 { margin: 0 0 0.55rem; font-size: 1.05rem; }
+    .panel p, .panel li { color: var(--muted); font-size: 0.92rem; }
+    .panel ul { margin: 0.4rem 0 0.9rem; padding-left: 1.1rem; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 0.28rem 0.7rem; font-size: 0.8rem; color: var(--muted); }
+    .cite { background: var(--cite-bg); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; overflow-x: auto; color: var(--cite-fg); font-size: 0.82rem; line-height: 1.5; white-space: pre; }
+    .cite-actions { margin-top: 0.7rem; }
+    footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; color: var(--muted); font-size: 0.84rem; }
+    @media (max-width: 900px) {
+      .stats, .features, .pipeline, .figure-grid, .compare-grid, .data-grid { grid-template-columns: 1fr; }
+      h1, .brand-mark, .hero-sub { max-width: none; } .nav { display: none; }
+    }
+
+
+    .compare-controls {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end;
+      padding: 1rem 1.05rem; margin: 0 0 1.1rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.65));
+      border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); backdrop-filter: blur(10px);
+    }
+    .compare-card {
+      box-shadow: var(--shadow) !important;
+      background: linear-gradient(180deg, #fff, #f8fafc) !important;
+      border: 1px solid var(--line) !important;
+      border-radius: var(--radius) !important;
+      overflow: hidden;
+    }
+    .panel {
+      background: linear-gradient(165deg, #fff, #f7f9fc) !important;
+      border: 1px solid var(--line) !important;
+      border-radius: var(--radius) !important;
+      padding: 1.25rem 1.3rem !important;
+      box-shadow: var(--shadow-sm) !important;
+    }
+    .results-table-wrap {
+      box-shadow: var(--shadow) !important;
+      border-radius: var(--radius) !important;
+      overflow: hidden;
+    }
+    .cite {
+      border-radius: var(--radius) !important;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* StudioBench-like motion (layout unchanged) */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: var(--d, 0ms);
+      }
+      .reveal.is-in {
+        opacity: 1;
+        transform: none;
+      }
+      /* Gallery cards must stay visible (lazy video IO separate from reveal) */
+      #gallery-root .compare-card {
+        opacity: 1;
+        transform: none;
+      }
+      .hero .eyebrow,
+      .hero .brand-mark,
+      .hero h1,
+      .hero .lede,
+      .hero .authors,
+      .hero .affil,
+      .hero .cta-row,
+      .hero .stats {
+        opacity: 0;
+        transform: translateY(16px);
+        animation: cvb-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      .hero .eyebrow { animation-delay: 0.05s; }
+      .hero .brand-mark { animation-delay: 0.1s; }
+      .hero h1 { animation-delay: 0.16s; }
+      .hero .lede { animation-delay: 0.22s; }
+      .hero .authors { animation-delay: 0.26s; }
+      .hero .affil { animation-delay: 0.3s; }
+      .hero .cta-row { animation-delay: 0.34s; }
+      .hero .stats { animation-delay: 0.42s; }
+      @keyframes cvb-rise {
+        to { opacity: 1; transform: none; }
+      }
+      @keyframes cvb-pulse {
+        0%, 100% { box-shadow: 0 0 0 4px rgba(31,111,229,0.14); transform: scale(1); }
+        50% { box-shadow: 0 0 0 8px rgba(31,111,229,0.08); transform: scale(1.08); }
+      }
+      .dot { animation: cvb-pulse 2.4s ease-in-out infinite; }
+      .eyebrow::before {
+        content: "";
+        display: inline-block;
+        width: 0.45rem; height: 0.45rem;
+        margin-right: 0.55rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--warm));
+        vertical-align: 0.05em;
+        box-shadow: 0 0 0 4px rgba(26,111,212,0.16);
+        animation: cvb-pulse 2.2s ease-in-out infinite;
+      }
+      .hero-orb.a { animation: cvb-float 9s ease-in-out infinite; }
+      .hero-orb.b { animation: cvb-float 11s ease-in-out infinite reverse; }
+      .hero-orb.c { animation: cvb-float 13s ease-in-out infinite; }
+      @keyframes cvb-float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-12px, 18px) scale(1.06); }
+      }
+      .stat, .feature, .step, .panel, .figure-card, .compare-card {
+        transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+      }
+      .stat:hover, .feature:hover, .step:hover, .panel:hover, .figure-card:hover, .compare-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+        border-color: var(--hover-line);
+      }
+      .btn, .nav a, .chip, .ghost-btn {
+        transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+      }
+      .btn:hover { transform: translateY(-1px); }
+      .btn.solid:hover { box-shadow: 0 12px 24px rgba(31,111,229,0.28); }
+      .nav a[aria-current="true"] {
+        color: #fff;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top"><span class="dot"></span>CodingVBench</a>
+      <div class="topbar-actions">
+        <nav class="nav">
+          <a href="#abstract">Abstract</a>
+          <a href="#method">Method</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#results">Results</a>
+          <a href="#release">Release</a>
+          <a href="#citation">BibTeX</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-orb a" aria-hidden="true"></div>
+        <div class="hero-orb b" aria-hidden="true"></div>
+        <div class="hero-orb c" aria-hidden="true"></div>
+        <div class="eyebrow">Evaluator benchmark · Code render × Pixel T2V</div>
+        <p class="brand-mark">CodingVBench</p>
+        <h1 class="hero-sub">Rethinking Video Quality Evaluation Beyond Generative Models</h1>
+        <p class="lede">Evaluators validated on pixel clips can <strong>reverse visible completion</strong> on code-rendered videos. CodingVBench tests them on <strong>matched routes</strong>, human labels, and controlled scene-program edits.</p>
+        <ul class="authors"><li>Anonymous authors</li></ul>
+        <div class="cta-row">
+          <a class="btn solid" href="#gallery">Compare Videos</a>
+          <a class="btn" href="#results">See Results</a>
+          <a class="btn" href="#" aria-disabled="true">Paper (coming soon)</a>
+          <a class="btn" href="https://github.com/OpenRaiser/CodingVBench">Code</a>
+          <a class="btn" href="#release">Data (coming soon)</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>360</b><span>Matched videos on 120 VBench prompts (Astra + Opus 5.5 + MiniMax-H3)</span></div>
+          <div class="stat"><b>60</b><span>Controlled pairs: 50 behavioral violations + 10 hue edits</span></div>
+          <div class="stat"><b>71.6→93.9%</b><span>Human completion agreement (native → Sonnet 5.5, 8 frames)</span></div>
+          <div class="stat"><b>50/50</b><span>Behavioral violations ranked below originals by Sol</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Key features</div>
+        <h2>Test the judge, not only the generator</h2>
+        <p class="sec-lead">Coding agents answer the same prompts through executable scene programs. Scores that look coherent on pixel T2V can still miss the requested event.</p>
+        <div class="features">
+          <article class="feature reveal"><div class="tag">Matched audit</div><h3>Same prompt, two routes</h3><p>120 VBench prompts rendered by coding models and MiniMax-H3, with three-annotator completion and visual-preference labels.</p></article>
+          <article class="feature reveal"><div class="tag">Controlled edits</div><h3>Break behavior or only hue</h3><p>Verified scene-program interventions: freeze, non-contact, camera pan, spatial flip, temporal reverse, and hue-preserving edits.</p></article>
+          <article class="feature reveal"><div class="tag">Judges</div><h3>Native modules vs 8-frame VLMs</h3><p>Compare UMT / GRiT / LAION-style native scores with frozen multi-frame VLM judges under a fixed protocol.</p></article>
+          <article class="feature reveal"><div class="tag">Reporting</div><h3>Separate what matters</h3><p>Report completion, visual quality, delivery, and scoring coverage separately when comparing production routes.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="abstract" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Abstract</div>
+        <div class="abstract reveal">Video generation benchmarks such as VBench assess visual quality and prompt adherence using metrics validated against human judgments on pixel-generated clips. Coding agents now answer the same prompts through executable scene programs. Yet scores can reverse visible completion: a code-rendered baby who wakes and stretches receives an action score of zero, while a pixel-generated baby who stays asleep receives one. We introduce CodingVBench, a benchmark for testing video evaluators across both production routes. It contains 360 matched code-rendered and MiniMax-H3 videos labeled by three annotators, and 60 controlled pairs. Eight-frame VLM judges reach 92.7% / 93.9% agreement with human completion versus 71.6% for native modules. We will release videos, labels, controlled pairs, and evaluation code.</div>
+      </div>
+    </section>
+
+    <section id="method" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Method</div>
+        <h2>Matched videos. Controlled edits. Fixed judges.</h2>
+        <p class="sec-lead">CodingVBench freezes the videos and varies the evaluator, so disagreements track judgment failures rather than generation noise.</p>
+        <div class="pipeline">
+          <div class="step reveal" style="--d:0ms"><div class="n">01</div><h3>Produce</h3><p>Render the same prompts via code agents and MiniMax-H3; keep scene programs for editable cells.</p></div>
+          <div class="step reveal" style="--d:70ms"><div class="n">02</div><h3>Label</h3><p>Three annotators mark completion, code style, and pairwise visual preference on the matched set.</p></div>
+          <div class="step reveal" style="--d:140ms"><div class="n">03</div><h3>Probe</h3><p>Edit verified programs to remove required behavior or shift hue while the task stays complete.</p></div>
+          <div class="step reveal" style="--d:210ms"><div class="n">04</div><h3>Judge</h3><p>Score with native modules and frozen 8-frame VLMs; publish prompts, rules, and per-video outputs.</p></div>
+        </div>
+        <div class="figure-grid">
+          <figure class="figure-card reveal" style="--d:0ms">
+            <img src="figures/fig01_overview.png" alt="Overview" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',textContent:'fig01_overview.png'}))" />
+            <figcaption class="figure-cap">Overview: matched code/pixel routes, human labels, and evaluator comparison.</figcaption>
+          </figure>
+          <figure class="figure-card reveal" style="--d:70ms">
+            <img src="figures/fig02_method.png" alt="Method" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',textContent:'fig02_method.png'}))" />
+            <figcaption class="figure-cap">Method: controlled pairs from scene-program edits plus native vs VLM judges.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Gallery</div>
+        <h2>Same prompt. Pick who faces whom.</h2>
+        <p class="sec-lead">Real matched clips from coding models and MiniMax-H3. Hover a card for the shared prompt. Cards show VBench native scores, human labels, and GPT-6.1-Sol / Claude Sonnet 5.5 judgments with short rationales.</p>
+        <div class="compare-controls">
+          <div class="control"><label for="leftModel">Left</label><select id="leftModel"></select></div>
+          <div class="control"><label for="rightModel">Right</label><select id="rightModel"></select></div>
+          <button class="swap-btn" id="swapModels" type="button">Swap ↔</button>
+          <div class="control" style="min-width:auto;flex:1">
+            <label>Presets</label>
+            <div class="gallery-filters" id="pairPresets" style="margin:0">
+              <button class="chip active" type="button" data-left="opus" data-right="h3">Opus5.5 vs H3</button>
+              <button class="chip" type="button" data-left="astra" data-right="h3">Astra vs H3</button>
+              <button class="chip" type="button" data-left="sol" data-right="h3">GPT-6.1-Sol vs H3</button>
+              <button class="chip" type="button" data-left="opus48" data-right="h3">Opus4.8 vs H3</button>
+              <button class="chip" type="button" data-left="opus" data-right="opus48">Opus5.5 vs Opus4.8</button>
+              <button class="chip" type="button" data-left="astra" data-right="opus">Astra vs Opus5.5</button>
+              <button class="chip" type="button" data-left="sol" data-right="opus">GPT-6.1-Sol vs Opus5.5</button>
+            </div>
+          </div>
+        </div>
+        <div class="gallery-filters" id="galleryFilters"></div>
+        <p class="filter-hint" id="filterHint"></p>
+        <div class="compare-grid" id="gallery-root"><div class="empty">Loading gallery…</div></div>
+      </div>
+    </section>
+
+    <section id="results" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Results</div>
+        <h2>Native modules lag multi-frame VLM judges</h2>
+        <p class="sec-lead">Completion agreement on the matched set, plus ranking accuracy on controlled behavioral violations.</p>
+        <div class="results-table-wrap reveal">
+          <table class="results">
+            <thead><tr><th>Judge</th><th>Agreement</th><th>Code false reject</th><th>Pixel failed accepted</th></tr></thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Matched completion labels</td></tr>
+              <tr><td>Native modules</td><td>71.6%</td><td>26.1%</td><td>75.0%</td></tr>
+              <tr><td>GPT-6.1-Sol (8 frames)</td><td class="hi">92.7%</td><td class="hi">1.3%</td><td class="hi">37.5%</td></tr>
+              <tr><td>Claude Sonnet 5.5 (8 frames)</td><td class="hi">93.9%</td><td class="hi">0%</td><td>43.8%</td></tr>
+              <tr class="group-row"><td colspan="4">Controlled behavioral violations (50 pairs)</td></tr>
+              <tr><td>GPT-6.1-Sol correct rank below original</td><td class="hi" colspan="3" style="text-align:left">50 / 50 across all five violation families</td></tr>
+              <tr><td>Sonnet correct rank</td><td colspan="3" style="text-align:left">46 / 50</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="results-note">Native aesthetic rankings also diverge from human visual preference. Full tables ship with the code release.</p>
+      </div>
+    </section>
+
+    <section id="release" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Release</div>
+        <h2>What we will open</h2>
+        <div class="data-grid">
+          <div class="panel reveal" style="--d:0ms">
+            <h3>Core benchmark</h3>
+            <ul>
+              <li>360 matched videos + majority / raw human labels</li>
+              <li>30 skipped-color diagnostic clips</li>
+              <li>60 controlled pairs with scene programs</li>
+              <li>Frozen VLM prompts, frame sampling, score→decision rules</li>
+            </ul>
+            <div class="pill-row"><span class="pill">GitHub: eval code</span><span class="pill">HF / drive: videos + labels</span><span class="pill">Pages: this site</span></div>
+          </div>
+          <div class="panel reveal" style="--d:70ms">
+            <h3>Supporting generation study</h3>
+            <p>Optional full dumps for the broader VBench generation study:</p>
+            <ul>
+              <li>4 code models: Astra, Opus 5.5, Opus 4.8, GPT-6.1 Sol</li>
+              <li>MiniMax-H3 pixel outputs aligned to prompts</li>
+              <li>VBench score tables and delivery logs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation" class="reveal">
+      <div class="wrap">
+        <div class="sec-label">Citation</div>
+        <h2>BibTeX</h2>
+        <pre class="cite mono" id="bibtex">@article{codingvbench2026,
+  title   = {CodingVBench: Rethinking Video Quality Evaluation Beyond Generative Models},
+  author  = {Anonymous},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+        <div class="cite-actions"><button class="btn" id="copyBib" type="button">Copy BibTeX</button></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">CodingVBench project page · style adapted from <a href="https://openraiser.github.io/NeurCo/">NeurCo</a> · placeholder authors pending final list.</div>
+  </footer>
+  <script src="./gallery.js"></script>
+</body>
+</html>
