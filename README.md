@@ -9,7 +9,15 @@
   <img src="https://img.shields.io/badge/Paper-coming%20soon-lightgrey" alt="Paper coming soon">
 </p>
 
-Video benchmarks such as VBench score visual quality and prompt adherence with metrics validated on **pixel**-generated clips. Coding agents now answer the same prompts through executable scene programs, and the two production routes fail in different ways: a code-rendered baby who wakes and stretches can score **zero** on action, while a pixel-generated baby who stays asleep scores **one**.
+Video benchmarks such as VBench score visual quality and prompt adherence with metrics validated on **pixel**-generated clips. Coding agents now answer the same prompts through executable scene programs, and the two production routes fail in different ways.
+
+> **Same prompt, two routes.** *A person is baby waking up.* The code-rendered baby wakes and stretches; the pixel-generated baby never opens its eyes. VBench native scores them the other way round.
+
+<p>
+<a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/astra/a-person-is-baby-waking-up-4.webp" width="49%" alt="GPT-6 Astra — a person is baby waking up"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/h3/a-person-is-baby-waking-up-4.webp" width="49%" alt="MiniMax H3 — a person is baby waking up"></a>
+</p>
+
+<sub>Left: **GPT-6 Astra** (code) — the baby wakes and stretches, VBench **0**, human label **complete**. Right: **MiniMax H3** (pixels) — the baby stays asleep, VBench **1**, human label **not complete**.</sub>
 
 CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched code-rendered and MiniMax-H3 clips** on 120 VBench prompts, labelled by three annotators for completion and visual preference, with **60 controlled scene-program edits** that remove required behavior or change only hue while the task stays complete. Eight-frame VLM judges reach **92.7% / 93.9%** agreement with human completion labels, versus **71.6%** for native modules.
 
@@ -35,17 +43,13 @@ CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched
 
 ## Gallery
 
-Every preview is a 2-second loop from the clip it plays: click it to open the full video on the [project page](https://openraiser.github.io/CodingVBench/), where any two routes can be compared side by side in a draggable split view, with the VBench, human and VLM judgments for each prompt.
+Every clip below is a 2-second loop with its route and VBench score burned in; click one to open the full video on the [project page](https://openraiser.github.io/CodingVBench/), where any two routes can be compared side by side in a draggable split view with the VBench, human and VLM judgments. Each category opens with three prompts; the rest are one click away.
 
-Previews run left to right in the same order for every prompt: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**. The first three answer the prompt by writing a scene program and rendering it; MiniMax H3 generates pixels directly. Opus 4.8 clips are on the project page but not shown here.
-
-The gallery draws on the broader VBench generation study behind the benchmark. The core matched set that carries three-annotator labels is the 120-prompt subset.
+The gallery draws on the broader VBench generation study behind the benchmark. The core matched set that carries three-annotator labels is the 120-prompt subset. Opus 4.8 clips are on the project page but not shown here.
 
 ### Human action
 
-_44 prompts_
-
-<sub>Left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
+<sub>44 prompts · left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
 
 **A person is air drumming** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -58,6 +62,8 @@ _44 prompts_
 **A person is bandaging** <sub>· ↻ VBench code↓ H3↑</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/h3/a-person-is-bandaging-4.webp" width="24%" alt="A person is bandaging — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/astra/a-person-is-bandaging-4.webp" width="24%" alt="A person is bandaging — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/opus/a-person-is-bandaging-4.webp" width="24%" alt="A person is bandaging — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/sol/a-person-is-bandaging-4.webp" width="24%" alt="A person is bandaging — GPT-6.1-Sol"></a></p>
+
+<details><summary><b>Show the other 41 human action prompts</b></summary>
 
 **A person is digging** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -223,13 +229,13 @@ _44 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20writing-0.mp4"><img src="docs/previews/h3/a-person-is-writing-0.webp" width="24%" alt="A person is writing — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20writing-0.mp4"><img src="docs/previews/astra/a-person-is-writing-0.webp" width="24%" alt="A person is writing — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20writing-0.mp4"><img src="docs/previews/opus/a-person-is-writing-0.webp" width="24%" alt="A person is writing — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20writing-0.mp4"><img src="docs/previews/sol/a-person-is-writing-0.webp" width="24%" alt="A person is writing — GPT-6.1-Sol"></a></p>
 
+</details>
+
 ---
 
 ### Multiple objects
 
-_21 prompts_
-
-<sub>Left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
+<sub>21 prompts · left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
 
 **a clock and a backpack** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -242,6 +248,8 @@ _21 prompts_
 **a tennis racket and a bottle** <sub>· ↻ VBench code↓ H3↑</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/h3/a-tennis-racket-and-a-bottle-0.webp" width="24%" alt="a tennis racket and a bottle — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/astra/a-tennis-racket-and-a-bottle-0.webp" width="24%" alt="a tennis racket and a bottle — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/opus/a-tennis-racket-and-a-bottle-0.webp" width="24%" alt="a tennis racket and a bottle — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/sol/a-tennis-racket-and-a-bottle-0.webp" width="24%" alt="a tennis racket and a bottle — GPT-6.1-Sol"></a></p>
+
+<details><summary><b>Show the other 18 multiple objects prompts</b></summary>
 
 **a truck and a bicycle** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -315,13 +323,13 @@ _21 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/h3/a-traffic-light-and-a-fire-hydrant-0.webp" width="24%" alt="a traffic light and a fire hydrant — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/astra/a-traffic-light-and-a-fire-hydrant-0.webp" width="24%" alt="a traffic light and a fire hydrant — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/opus/a-traffic-light-and-a-fire-hydrant-0.webp" width="24%" alt="a traffic light and a fire hydrant — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/sol/a-traffic-light-and-a-fire-hydrant-0.webp" width="24%" alt="a traffic light and a fire hydrant — GPT-6.1-Sol"></a></p>
 
+</details>
+
 ---
 
 ### Spatial relationship
 
-_17 prompts_
-
-<sub>Left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
+<sub>17 prompts · left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
 
 **a baseball glove on the right of a tennis racket, front view** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -334,6 +342,8 @@ _17 prompts_
 **a bicycle on the left of a car, front view** <sub>· ↻ VBench code↓ H3↑</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/h3/a-bicycle-on-the-left-of-a-car-front-view-0.webp" width="24%" alt="a bicycle on the left of a car, front view — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/astra/a-bicycle-on-the-left-of-a-car-front-view-0.webp" width="24%" alt="a bicycle on the left of a car, front view — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/opus/a-bicycle-on-the-left-of-a-car-front-view-0.webp" width="24%" alt="a bicycle on the left of a car, front view — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/sol/a-bicycle-on-the-left-of-a-car-front-view-0.webp" width="24%" alt="a bicycle on the left of a car, front view — GPT-6.1-Sol"></a></p>
+
+<details><summary><b>Show the other 14 spatial relationship prompts</b></summary>
 
 **a car on the right of a motorcycle, front view** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -391,13 +401,13 @@ _17 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/h3/a-tv-on-the-right-of-a-dining-table-front-view-1.webp" width="24%" alt="a tv on the right of a dining table, front view — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/astra/a-tv-on-the-right-of-a-dining-table-front-view-1.webp" width="24%" alt="a tv on the right of a dining table, front view — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/opus/a-tv-on-the-right-of-a-dining-table-front-view-1.webp" width="24%" alt="a tv on the right of a dining table, front view — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/sol/a-tv-on-the-right-of-a-dining-table-front-view-1.webp" width="24%" alt="a tv on the right of a dining table, front view — GPT-6.1-Sol"></a></p>
 
+</details>
+
 ---
 
 ### Color
 
-_11 prompts_
-
-<sub>Left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
+<sub>11 prompts · left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
 
 **a blue car** <sub>· ↻ VBench code↑ H3↓</sub>
 
@@ -410,6 +420,8 @@ _11 prompts_
 **a pink clock** <sub>· ↻ VBench code↑ H3↓</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pink%20clock-0.mp4"><img src="docs/previews/h3/a-pink-clock-0.webp" width="24%" alt="a pink clock — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pink%20clock-0.mp4"><img src="docs/previews/astra/a-pink-clock-0.webp" width="24%" alt="a pink clock — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pink%20clock-0.mp4"><img src="docs/previews/opus/a-pink-clock-0.webp" width="24%" alt="a pink clock — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pink%20clock-0.mp4"><img src="docs/previews/sol/a-pink-clock-0.webp" width="24%" alt="a pink clock — GPT-6.1-Sol"></a></p>
+
+<details><summary><b>Show the other 8 color prompts</b></summary>
 
 **a purple umbrella** <sub>· ↻ VBench code↑ H3↓</sub>
 
@@ -443,13 +455,13 @@ _11 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20white%20clock-1.mp4"><img src="docs/previews/h3/a-white-clock-1.webp" width="24%" alt="a white clock — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20white%20clock-1.mp4"><img src="docs/previews/astra/a-white-clock-1.webp" width="24%" alt="a white clock — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20white%20clock-1.mp4"><img src="docs/previews/opus/a-white-clock-1.webp" width="24%" alt="a white clock — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20white%20clock-1.mp4"><img src="docs/previews/sol/a-white-clock-1.webp" width="24%" alt="a white clock — GPT-6.1-Sol"></a></p>
 
+</details>
+
 ---
 
 ### Object class
 
-_6 prompts_
-
-<sub>Left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
+<sub>6 prompts · left to right: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**</sub>
 
 **a cat** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -463,6 +475,8 @@ _6 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20person-0.mp4"><img src="docs/previews/h3/a-person-0.webp" width="24%" alt="a person — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20person-0.mp4"><img src="docs/previews/astra/a-person-0.webp" width="24%" alt="a person — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20person-0.mp4"><img src="docs/previews/opus/a-person-0.webp" width="24%" alt="a person — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20person-0.mp4"><img src="docs/previews/sol/a-person-0.webp" width="24%" alt="a person — GPT-6.1-Sol"></a></p>
 
+<details><summary><b>Show the other 3 object class prompts</b></summary>
+
 **a pizza** <sub>· ↻ VBench code↓ H3↑</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza-3.mp4"><img src="docs/previews/h3/a-pizza-3.webp" width="24%" alt="a pizza — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza-3.mp4"><img src="docs/previews/astra/a-pizza-3.webp" width="24%" alt="a pizza — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza-3.mp4"><img src="docs/previews/opus/a-pizza-3.webp" width="24%" alt="a pizza — Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza-3.mp4"><img src="docs/previews/sol/a-pizza-3.webp" width="24%" alt="a pizza — GPT-6.1-Sol"></a></p>
@@ -475,9 +489,11 @@ _6 prompts_
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bird-0.mp4"><img src="docs/previews/h3/a-bird-0.webp" width="24%" alt="a bird — MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bird-0.mp4"><img src="docs/previews/astra/a-bird-0.webp" width="24%" alt="a bird — GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bird-0.mp4"><img src="docs/previews/opus/a-bird-0.webp" width="24%" alt="a bird — Opus 5.5"></a></p>
 
+</details>
+
 ## What the labels mean
 
-Each prompt carries the verdict the benchmark is built on, taken from VBench native scoring of the code route against MiniMax-H3:
+Every clip is stamped with its route and the VBench native score for that route. Per prompt:
 
 | Tag | Meaning |
 | --- | --- |
