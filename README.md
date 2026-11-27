@@ -42,178 +42,177 @@ CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched
   - [Overall consistency](#overall-consistency)
   - [Subject consistency](#subject-consistency)
   - [Temporal flickering](#temporal-flickering)
-- [What the labels mean](#what-the-labels-mean)
 - [Results](#results)
 - [Release](#release)
 - [Citation](#citation)
 
 ## Gallery
 
-Every VBench prompt the four routes were run on, one run each. Every clip is a 2-second loop stamped with its route, always in the same order: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**. Prompts from the human-labelled matched set come first in each category and carry the benchmark tag; click any of those to open the full video on the [project page](https://openraiser.github.io/CodingVBench/). Each category opens with a few prompts; the rest are one click away.
+Every VBench prompt the four routes were run on, one run each. Every clip is a 2-second loop stamped with its route, always in the same order: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**. Prompts from the human-labelled matched set come first in each category; click any of those to open the full video on the [project page](https://openraiser.github.io/CodingVBench/). Each category opens with a few prompts; the rest are one click away.
 
 Opus 4.8 clips are on the project page but not shown here.
 
 ### Human action
 
-**A person is air drumming** <sub>· ↻ VBench code↑ H3↓</sub>
+**A person is air drumming**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/previews/h3/0124.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/previews/astra/0124.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/previews/opus/0124.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/previews/sol/0124.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is arranging flowers** <sub>· VBench both high</sub>
+**A person is arranging flowers**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/previews/h3/0126.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/previews/astra/0126.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/previews/opus/0126.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/previews/sol/0126.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is baby waking up** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is baby waking up**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/h3/0127.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/astra/0127.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/opus/0127.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/previews/sol/0127.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is bandaging** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is bandaging**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/h3/0128.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/astra/0128.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/opus/0128.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/sol/0128.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
 <details><summary><b>Show more human action prompts</b></summary>
 
-**A person is bending back** <sub>· ↻ VBench code↑ H3↓</sub>
+**A person is bending back**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bending%20back-0.mp4"><img src="docs/previews/h3/0130.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bending%20back-0.mp4"><img src="docs/previews/astra/0130.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bending%20back-0.mp4"><img src="docs/previews/opus/0130.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bending%20back-0.mp4"><img src="docs/previews/sol/0130.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is bending metal** <sub>· ↻ VBench code↑ H3↓ · no GPT-6.1-Sol clip</sub>
+**A person is bending metal** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/previews/h3/0131.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/previews/astra/0131.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/previews/opus/0131.webp" width="24%" alt="Opus 5.5"></a></p>
 
-**A person is brushing teeth** <sub>· VBench both high</sub>
+**A person is brushing teeth**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/previews/h3/0132.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/previews/astra/0132.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/previews/opus/0132.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/previews/sol/0132.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is catching or throwing baseball** <sub>· VBench both high</sub>
+**A person is catching or throwing baseball**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/previews/h3/0135.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/previews/astra/0135.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/previews/opus/0135.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/previews/sol/0135.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is cheerleading** <sub>· VBench both high</sub>
+**A person is cheerleading**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20cheerleading-1.mp4"><img src="docs/previews/h3/0137.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20cheerleading-1.mp4"><img src="docs/previews/astra/0137.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20cheerleading-1.mp4"><img src="docs/previews/opus/0137.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20cheerleading-1.mp4"><img src="docs/previews/sol/0137.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is clay pottery making** <sub>· VBench both high</sub>
+**A person is clay pottery making**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/previews/h3/0139.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/previews/astra/0139.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/previews/opus/0139.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/previews/sol/0139.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is climbing a rope** <sub>· VBench both high</sub>
+**A person is climbing a rope**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/previews/h3/0141.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/previews/astra/0141.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/previews/opus/0141.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/previews/sol/0141.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is cutting watermelon** <sub>· VBench both high</sub>
+**A person is cutting watermelon**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/previews/h3/0146.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/previews/astra/0146.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/previews/opus/0146.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/previews/sol/0146.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is digging** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is digging**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20digging-3.mp4"><img src="docs/previews/h3/0148.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20digging-3.mp4"><img src="docs/previews/astra/0148.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20digging-3.mp4"><img src="docs/previews/opus/0148.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20digging-3.mp4"><img src="docs/previews/sol/0148.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is doing laundry** <sub>· VBench both high</sub>
+**A person is doing laundry**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/previews/h3/0150.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/previews/astra/0150.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/previews/opus/0150.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/previews/sol/0150.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is flying kite** <sub>· VBench both high</sub>
+**A person is flying kite**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/previews/h3/0157.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/previews/astra/0157.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/previews/opus/0157.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/previews/sol/0157.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is giving or receiving award** <sub>· VBench both high</sub>
+**A person is giving or receiving award**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/previews/h3/0160.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/previews/astra/0160.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/previews/opus/0160.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/previews/sol/0160.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is knitting** <sub>· VBench both high</sub>
+**A person is knitting**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20knitting-0.mp4"><img src="docs/previews/h3/0168.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20knitting-0.mp4"><img src="docs/previews/astra/0168.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20knitting-0.mp4"><img src="docs/previews/opus/0168.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20knitting-0.mp4"><img src="docs/previews/sol/0168.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is making bed** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is making bed**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20making%20bed-3.mp4"><img src="docs/previews/h3/0170.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20making%20bed-3.mp4"><img src="docs/previews/astra/0170.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20making%20bed-3.mp4"><img src="docs/previews/opus/0170.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20making%20bed-3.mp4"><img src="docs/previews/sol/0170.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is marching** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is marching**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20marching-1.mp4"><img src="docs/previews/h3/0172.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20marching-1.mp4"><img src="docs/previews/astra/0172.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20marching-1.mp4"><img src="docs/previews/opus/0172.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20marching-1.mp4"><img src="docs/previews/sol/0172.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is massaging legs** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is massaging legs**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/previews/h3/0173.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/previews/astra/0173.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/previews/opus/0173.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/previews/sol/0173.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is motorcycling** <sub>· VBench both high</sub>
+**A person is motorcycling**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20motorcycling-0.mp4"><img src="docs/previews/h3/0175.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20motorcycling-0.mp4"><img src="docs/previews/astra/0175.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20motorcycling-0.mp4"><img src="docs/previews/opus/0175.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20motorcycling-0.mp4"><img src="docs/previews/sol/0175.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is petting animal (not cat)** <sub>· VBench both high</sub>
+**A person is petting animal (not cat)**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/previews/h3/0177.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/previews/astra/0177.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/previews/opus/0177.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/previews/sol/0177.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is planting trees** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is planting trees**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/previews/h3/0178.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/previews/astra/0178.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/previews/opus/0178.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/previews/sol/0178.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is playing chess** <sub>· VBench both high</sub>
+**A person is playing chess**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/previews/h3/0179.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/previews/astra/0179.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/previews/opus/0179.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/previews/sol/0179.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is playing flute** <sub>· VBench both high</sub>
+**A person is playing flute**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/previews/h3/0181.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/previews/astra/0181.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/previews/opus/0181.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/previews/sol/0181.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is push up** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is push up**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20push%20up-4.mp4"><img src="docs/previews/h3/0185.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20push%20up-4.mp4"><img src="docs/previews/astra/0185.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20push%20up-4.mp4"><img src="docs/previews/opus/0185.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20push%20up-4.mp4"><img src="docs/previews/sol/0185.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is pushing cart** <sub>· VBench both high</sub>
+**A person is pushing cart**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/previews/h3/0186.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/previews/astra/0186.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/previews/opus/0186.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/previews/sol/0186.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is riding scooter** <sub>· VBench both high</sub>
+**A person is riding scooter**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/previews/h3/0190.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/previews/astra/0190.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/previews/opus/0190.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/previews/sol/0190.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is robot dancing** <sub>· VBench both high</sub>
+**A person is robot dancing**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/previews/h3/0191.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/previews/astra/0191.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/previews/opus/0191.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/previews/sol/0191.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is rock climbing** <sub>· VBench both high</sub>
+**A person is rock climbing**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/previews/h3/0192.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/previews/astra/0192.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/previews/opus/0192.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/previews/sol/0192.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is rock scissors paper** <sub>· ↻ VBench code↑ H3↓</sub>
+**A person is rock scissors paper**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/previews/h3/0193.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/previews/astra/0193.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/previews/opus/0193.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/previews/sol/0193.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is sharpening knives** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is sharpening knives**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/previews/h3/0199.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/previews/astra/0199.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/previews/opus/0199.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/previews/sol/0199.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is shining shoes** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is shining shoes**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/previews/h3/0200.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/previews/astra/0200.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/previews/opus/0200.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/previews/sol/0200.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is shooting basketball** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is shooting basketball**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/previews/h3/0201.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/previews/astra/0201.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/previews/opus/0201.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/previews/sol/0201.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is skydiving** <sub>· ↻ VBench code↓ H3↑</sub>
+**A person is skydiving**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20skydiving-4.mp4"><img src="docs/previews/h3/0205.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20skydiving-4.mp4"><img src="docs/previews/astra/0205.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20skydiving-4.mp4"><img src="docs/previews/opus/0205.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20skydiving-4.mp4"><img src="docs/previews/sol/0205.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is tai chi** <sub>· VBench both high</sub>
+**A person is tai chi**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/previews/h3/0213.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/previews/astra/0213.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/previews/opus/0213.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/previews/sol/0213.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is taking a shower** <sub>· VBench both high</sub>
+**A person is taking a shower**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/previews/h3/0214.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/previews/astra/0214.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/previews/opus/0214.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/previews/sol/0214.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is tasting beer** <sub>· VBench both high</sub>
+**A person is tasting beer**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/previews/h3/0215.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/previews/astra/0215.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/previews/opus/0215.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/previews/sol/0215.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is washing dishes** <sub>· ↻ VBench code↑ H3↓</sub>
+**A person is washing dishes**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/previews/h3/0220.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/previews/astra/0220.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/previews/opus/0220.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/previews/sol/0220.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**A person is writing** <sub>· VBench both high</sub>
+**A person is writing**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20writing-0.mp4"><img src="docs/previews/h3/0223.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20writing-0.mp4"><img src="docs/previews/astra/0223.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20writing-0.mp4"><img src="docs/previews/opus/0223.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20writing-0.mp4"><img src="docs/previews/sol/0223.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
@@ -463,89 +462,89 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Multiple objects
 
-**a banana and a keyboard** <sub>· VBench both high</sub>
+**a banana and a keyboard**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/h3/0425.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/astra/0425.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/opus/0425.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/sol/0425.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a bowl and a remote** <sub>· VBench both high</sub>
+**a bowl and a remote**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/previews/h3/0490.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/previews/astra/0490.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/previews/opus/0490.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/previews/sol/0490.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a bus and a traffic light** <sub>· VBench both high</sub>
+**a bus and a traffic light**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/previews/h3/0494.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/previews/astra/0494.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/previews/opus/0494.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/previews/sol/0494.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a chair and a couch** <sub>· VBench both high</sub>
+**a chair and a couch**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/h3/0522.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/astra/0522.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/opus/0522.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/sol/0522.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
 <details><summary><b>Show more multiple objects prompts</b></summary>
 
-**a clock and a backpack** <sub>· ↻ VBench code↓ H3↑</sub>
+**a clock and a backpack**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/previews/h3/0525.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/previews/astra/0525.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/previews/opus/0525.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/previews/sol/0525.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a handbag and a tie** <sub>· ↻ VBench code↑ H3↓</sub>
+**a handbag and a tie**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/previews/h3/0583.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/previews/astra/0583.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/previews/opus/0583.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/previews/sol/0583.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a motorcycle and a boat** <sub>· ↻ VBench code↑ H3↓</sub>
+**a motorcycle and a boat**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/previews/h3/0613.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/previews/astra/0613.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/previews/opus/0613.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/previews/sol/0613.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a person and a hair drier** <sub>· VBench both high</sub>
+**a person and a hair drier**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/previews/h3/0624.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/previews/astra/0624.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/previews/opus/0624.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/previews/sol/0624.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a pizza and a tie** <sub>· ↻ VBench code↓ H3↑</sub>
+**a pizza and a tie**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/previews/h3/0645.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/previews/astra/0645.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/previews/opus/0645.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/previews/sol/0645.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a potted plant and a tv** <sub>· VBench both high</sub>
+**a potted plant and a tv**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/previews/h3/0649.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/previews/astra/0649.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/previews/opus/0649.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/previews/sol/0649.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a remote and a keyboard** <sub>· ↻ VBench code↑ H3↓</sub>
+**a remote and a keyboard**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/previews/h3/0672.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/previews/astra/0672.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/previews/opus/0672.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/previews/sol/0672.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a teddy bear and a frisbee** <sub>· VBench both high</sub>
+**a teddy bear and a frisbee**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/previews/h3/0731.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/previews/astra/0731.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/previews/opus/0731.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/previews/sol/0731.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a tennis racket and a bottle** <sub>· ↻ VBench code↓ H3↑</sub>
+**a tennis racket and a bottle**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/h3/0735.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/astra/0735.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/opus/0735.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/previews/sol/0735.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a toilet and a hair drier** <sub>· ↻ VBench code↑ H3↓</sub>
+**a toilet and a hair drier**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/previews/h3/0744.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/previews/astra/0744.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/previews/opus/0744.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/previews/sol/0744.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a traffic light and a fire hydrant** <sub>· VBench both high</sub>
+**a traffic light and a fire hydrant**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/h3/0751.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/astra/0751.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/opus/0751.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/previews/sol/0751.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a truck and a bicycle** <sub>· ↻ VBench code↓ H3↑</sub>
+**a truck and a bicycle**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/previews/h3/0762.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/previews/astra/0762.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/previews/opus/0762.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/previews/sol/0762.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a zebra and a giraffe** <sub>· ↻ VBench code↓ H3↑</sub>
+**a zebra and a giraffe**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/previews/h3/0797.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/previews/astra/0797.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/previews/opus/0797.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/previews/sol/0797.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**an apple and a cell phone** <sub>· ↻ VBench code↓ H3↑</sub>
+**an apple and a cell phone**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/previews/h3/0812.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/previews/astra/0812.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/previews/opus/0812.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/previews/sol/0812.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**an elephant and a bear** <sub>· ↻ VBench code↓ H3↑</sub>
+**an elephant and a bear**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/previews/h3/0816.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/previews/astra/0816.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/previews/opus/0816.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/previews/sol/0816.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**broccoli and a backpack** <sub>· ↻ VBench code↓ H3↑</sub>
+**broccoli and a backpack**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/previews/h3/0857.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/previews/astra/0857.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/previews/opus/0857.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/previews/sol/0857.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**skis and a snowboard** <sub>· ↻ VBench code↑ H3↓</sub>
+**skis and a snowboard**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/skis%20and%20a%20snowboard-0.mp4"><img src="docs/previews/h3/0924.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/skis%20and%20a%20snowboard-0.mp4"><img src="docs/previews/astra/0924.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/skis%20and%20a%20snowboard-0.mp4"><img src="docs/previews/opus/0924.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/skis%20and%20a%20snowboard-0.mp4"><img src="docs/previews/sol/0924.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
@@ -799,117 +798,117 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Spatial relationship
 
-**a baseball glove on the right of a tennis racket, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a baseball glove on the right of a tennis racket, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/h3/0433.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/astra/0433.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/opus/0433.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/sol/0433.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a bear on the right of a zebra, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a bear on the right of a zebra, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/previews/h3/0439.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/previews/astra/0439.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/previews/opus/0439.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/previews/sol/0439.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a bicycle on the left of a car, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a bicycle on the left of a car, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/h3/0451.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/astra/0451.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/opus/0451.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/previews/sol/0451.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a bowl on the left of a bottle, front view** <sub>· VBench both high</sub>
+**a bowl on the left of a bottle, front view**
 
 <p><img src="docs/previews/h3/0491.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0491.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0491.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0491.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
 <details><summary><b>Show more spatial relationship prompts</b></summary>
 
-**a car on the right of a motorcycle, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a car on the right of a motorcycle, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/previews/h3/0504.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/previews/astra/0504.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/previews/opus/0504.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/previews/sol/0504.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a couch on the right of a bed, front view** <sub>· VBench both high</sub>
+**a couch on the right of a bed, front view**
 
 <p><img src="docs/previews/h3/0529.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0529.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0529.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0529.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a cup on the left of a fork, front view** <sub>· VBench both high</sub>
+**a cup on the left of a fork, front view**
 
 <p><img src="docs/previews/h3/0538.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0538.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0538.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0538.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a donut on the top of broccoli, front view** <sub>· ↻ VBench both high</sub>
+**a donut on the top of broccoli, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0552.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0552.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0552.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0552.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a fork on the right of a knife, front view** <sub>· VBench both high</sub>
+**a fork on the right of a knife, front view**
 
 <p><img src="docs/previews/h3/0560.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0560.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0560.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0560.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a frisbee on the left of a sports ball, front view** <sub>· VBench both high</sub>
+**a frisbee on the left of a sports ball, front view**
 
 <p><img src="docs/previews/h3/0563.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0563.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0563.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0563.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a horse on the right of a sheep, front view** <sub>· VBench both high</sub>
+**a horse on the right of a sheep, front view**
 
 <p><img src="docs/previews/h3/0588.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0588.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0588.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0588.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a knife on the left of a spoon, front view** <sub>· VBench both high</sub>
+**a knife on the left of a spoon, front view**
 
 <p><img src="docs/previews/h3/0603.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0603.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0603.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0603.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a microwave on the top of an oven, front view** <sub>· ↻ VBench code↑ H3↓</sub>
+**a microwave on the top of an oven, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/previews/h3/0610.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/previews/astra/0610.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/previews/opus/0610.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/previews/sol/0610.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a pizza on the bottom of a donut, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a pizza on the bottom of a donut, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/previews/h3/0646.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/previews/astra/0646.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/previews/opus/0646.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/previews/sol/0646.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a sheep on the left of a cow, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a sheep on the left of a cow, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/previews/h3/0701.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/previews/astra/0701.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/previews/opus/0701.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/previews/sol/0701.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a snowboard on the bottom of a kite, front view** <sub>· ↻ VBench code↑ H3↓</sub>
+**a snowboard on the bottom of a kite, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0713.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0713.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0713.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0713.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a spoon on the right of a bowl, front view** <sub>· ↻ VBench code↑ H3↓</sub>
+**a spoon on the right of a bowl, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0717.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0717.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0717.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0717.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a sports ball on the right of a baseball bat, front view** <sub>· ↻ VBench code↑ H3↓</sub>
+**a sports ball on the right of a baseball bat, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/previews/h3/0720.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/previews/astra/0720.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/previews/opus/0720.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/previews/sol/0720.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a toothbrush on the left of a sink, front view** <sub>· VBench both high</sub>
+**a toothbrush on the left of a sink, front view**
 
 <p><img src="docs/previews/h3/0749.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0749.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0749.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0749.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a traffic light on the left of a fire hydrant, front view** <sub>· VBench both high</sub>
+**a traffic light on the left of a fire hydrant, front view**
 
 <p><img src="docs/previews/h3/0752.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0752.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0752.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0752.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a train on the right of a boat, front view** <sub>· VBench both high</sub>
+**a train on the right of a boat, front view**
 
 <p><img src="docs/previews/h3/0757.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0757.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0757.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0757.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a truck on the right of a bicycle, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**a truck on the right of a bicycle, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0763.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0763.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0763.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0763.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a tv on the right of a dining table, front view** <sub>· ↻ VBench code↑ H3↓</sub>
+**a tv on the right of a dining table, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0769.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0769.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0769.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0769.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a zebra on the left of a giraffe, front view** <sub>· VBench both high · no GPT-6.1-Sol clip</sub>
+**a zebra on the left of a giraffe, front view** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><img src="docs/previews/h3/0799.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0799.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0799.webp" width="24%" alt="Opus 5.5"></p>
 
-**an airplane on the left of a train, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**an airplane on the left of a train, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/previews/h3/0808.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/previews/astra/0808.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/previews/opus/0808.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/previews/sol/0808.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**an apple on the bottom of a sandwich, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**an apple on the bottom of a sandwich, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/previews/h3/0813.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/previews/astra/0813.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/previews/opus/0813.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/previews/sol/0813.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**an orange on the top of a carrot, front view** <sub>· ↻ VBench code↓ H3↑</sub>
+**an orange on the top of a carrot, front view**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/previews/h3/0832.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/previews/astra/0832.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/previews/opus/0832.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/previews/sol/0832.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**scissors on the left of a teddy bear, front view** <sub>· VBench both high</sub>
+**scissors on the left of a teddy bear, front view**
 
 <p><img src="docs/previews/h3/0920.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0920.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0920.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0920.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
@@ -1143,49 +1142,49 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Color
 
-**a black car** <sub>· VBench both high</sub>
+**a black car**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20black%20car-1.mp4"><img src="docs/previews/h3/0463.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20black%20car-1.mp4"><img src="docs/previews/astra/0463.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20black%20car-1.mp4"><img src="docs/previews/opus/0463.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20black%20car-1.mp4"><img src="docs/previews/sol/0463.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a blue bowl** <sub>· VBench both high · no GPT-6.1-Sol clip</sub>
+**a blue bowl** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20blue%20bowl-0.mp4"><img src="docs/previews/h3/0472.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20blue%20bowl-0.mp4"><img src="docs/previews/astra/0472.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20blue%20bowl-0.mp4"><img src="docs/previews/opus/0472.webp" width="24%" alt="Opus 5.5"></a></p>
 
-**a blue car** <sub>· ↻ VBench code↑ H3↓</sub>
+**a blue car**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20blue%20car-0.mp4"><img src="docs/previews/h3/0473.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20blue%20car-0.mp4"><img src="docs/previews/astra/0473.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20blue%20car-0.mp4"><img src="docs/previews/opus/0473.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20blue%20car-0.mp4"><img src="docs/previews/sol/0473.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a green bicycle** <sub>· ↻ VBench code↑ H3↓</sub>
+**a green bicycle**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20bicycle-1.mp4"><img src="docs/previews/h3/0571.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20bicycle-1.mp4"><img src="docs/previews/astra/0571.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20bicycle-1.mp4"><img src="docs/previews/opus/0571.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20bicycle-1.mp4"><img src="docs/previews/sol/0571.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
 <details><summary><b>Show more color prompts</b></summary>
 
-**a green bowl** <sub>· VBench both high</sub>
+**a green bowl**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20bowl-2.mp4"><img src="docs/previews/h3/0573.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20bowl-2.mp4"><img src="docs/previews/astra/0573.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20bowl-2.mp4"><img src="docs/previews/opus/0573.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20bowl-2.mp4"><img src="docs/previews/sol/0573.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a green clock** <sub>· VBench both high</sub>
+**a green clock**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20clock-3.mp4"><img src="docs/previews/h3/0576.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20clock-3.mp4"><img src="docs/previews/astra/0576.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20clock-3.mp4"><img src="docs/previews/opus/0576.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20clock-3.mp4"><img src="docs/previews/sol/0576.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a pink clock** <sub>· ↻ VBench code↑ H3↓</sub>
+**a pink clock**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pink%20clock-0.mp4"><img src="docs/previews/h3/0641.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pink%20clock-0.mp4"><img src="docs/previews/astra/0641.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pink%20clock-0.mp4"><img src="docs/previews/opus/0641.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pink%20clock-0.mp4"><img src="docs/previews/sol/0641.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a purple chair** <sub>· VBench both high</sub>
+**a purple chair**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20purple%20chair-1.mp4"><img src="docs/previews/h3/0656.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20purple%20chair-1.mp4"><img src="docs/previews/astra/0656.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20purple%20chair-1.mp4"><img src="docs/previews/opus/0656.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20purple%20chair-1.mp4"><img src="docs/previews/sol/0656.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a purple umbrella** <sub>· ↻ VBench code↑ H3↓</sub>
+**a purple umbrella**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20purple%20umbrella-2.mp4"><img src="docs/previews/h3/0659.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20purple%20umbrella-2.mp4"><img src="docs/previews/astra/0659.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20purple%20umbrella-2.mp4"><img src="docs/previews/opus/0659.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20purple%20umbrella-2.mp4"><img src="docs/previews/sol/0659.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a white clock** <sub>· VBench both high</sub>
+**a white clock**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20white%20clock-1.mp4"><img src="docs/previews/h3/0780.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20white%20clock-1.mp4"><img src="docs/previews/astra/0780.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20white%20clock-1.mp4"><img src="docs/previews/opus/0780.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20white%20clock-1.mp4"><img src="docs/previews/sol/0780.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**an orange clock** <sub>· ↻ VBench code↑ H3↓</sub>
+**an orange clock**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20orange%20clock-0.mp4"><img src="docs/previews/h3/0830.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20orange%20clock-0.mp4"><img src="docs/previews/astra/0830.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20orange%20clock-0.mp4"><img src="docs/previews/opus/0830.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20orange%20clock-0.mp4"><img src="docs/previews/sol/0830.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
@@ -1491,49 +1490,49 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Object class
 
-**a bird** <sub>· VBench both high · no GPT-6.1-Sol clip</sub>
+**a bird** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bird-0.mp4"><img src="docs/previews/h3/0459.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bird-0.mp4"><img src="docs/previews/astra/0459.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bird-0.mp4"><img src="docs/previews/opus/0459.webp" width="24%" alt="Opus 5.5"></a></p>
 
-**a boat** <sub>· VBench both high</sub>
+**a boat**
 
 <p><img src="docs/previews/h3/0484.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0484.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0484.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0484.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a car** <sub>· VBench both high</sub>
+**a car**
 
 <p><img src="docs/previews/h3/0508.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0508.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0508.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0508.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a cat** <sub>· ↻ VBench code↓ H3↑</sub>
+**a cat**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20cat-3.mp4"><img src="docs/previews/h3/0519.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20cat-3.mp4"><img src="docs/previews/astra/0519.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20cat-3.mp4"><img src="docs/previews/opus/0519.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20cat-3.mp4"><img src="docs/previews/sol/0519.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
 <details><summary><b>Show more object class prompts</b></summary>
 
-**a dog** <sub>· ↻ VBench code↓ H3↑ · no GPT-6.1-Sol clip</sub>
+**a dog** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20dog-0.mp4"><img src="docs/previews/h3/0549.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20dog-0.mp4"><img src="docs/previews/astra/0549.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20dog-0.mp4"><img src="docs/previews/opus/0549.webp" width="24%" alt="Opus 5.5"></a></p>
 
-**a hot dog** <sub>· VBench both high</sub>
+**a hot dog**
 
 <p><img src="docs/previews/h3/0595.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0595.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0595.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0595.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a person** <sub>· ↻ VBench code↓ H3↑</sub>
+**a person**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20person-0.mp4"><img src="docs/previews/h3/0635.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20person-0.mp4"><img src="docs/previews/astra/0635.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20person-0.mp4"><img src="docs/previews/opus/0635.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20person-0.mp4"><img src="docs/previews/sol/0635.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a pizza** <sub>· ↻ VBench code↓ H3↑</sub>
+**a pizza**
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza-3.mp4"><img src="docs/previews/h3/0648.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza-3.mp4"><img src="docs/previews/astra/0648.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza-3.mp4"><img src="docs/previews/opus/0648.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza-3.mp4"><img src="docs/previews/sol/0648.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-**a sports ball** <sub>· ↻ VBench code↓ H3↑ · no GPT-6.1-Sol clip</sub>
+**a sports ball** <sub>· no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sports%20ball-3.mp4"><img src="docs/previews/h3/0721.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sports%20ball-3.mp4"><img src="docs/previews/astra/0721.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sports%20ball-3.mp4"><img src="docs/previews/opus/0721.webp" width="24%" alt="Opus 5.5"></a></p>
 
-**a tie** <sub>· VBench both high</sub>
+**a tie**
 
 <p><img src="docs/previews/h3/0739.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0739.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0739.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0739.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-**a zebra** <sub>· VBench both high</sub>
+**a zebra**
 
 <p><img src="docs/previews/h3/0802.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0802.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0802.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0802.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
@@ -3914,19 +3913,6 @@ Opus 4.8 clips are on the project page but not shown here.
 <p><img src="docs/previews/h3/0931.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0931.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0931.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0931.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
 </details>
-
-## What the labels mean
-
-Prompts from the human-labelled matched set carry the verdict the benchmark is built on, from VBench native scoring of the code route against MiniMax-H3:
-
-| Tag | Meaning |
-| --- | --- |
-| VBench code↓ H3↑ | VBench scores the code-rendered route **lower** than the H3 clip |
-| VBench both high | VBench scores both routes high |
-| VBench code↑ H3↓ | VBench scores the code-rendered route **higher** than the H3 clip |
-| ↻ | Score-reversal prompt: VBench scores the code route and the H3 clip **differently**; the *Score reversal* filter on the project page |
-
-Untagged prompts come from the broader VBench generation study and have no human labels. A missing route means that model was not generated for that prompt.
 
 ## Results
 
