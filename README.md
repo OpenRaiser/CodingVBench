@@ -1,2 +1,1152 @@
 # CodingVBench
-CodingVBench: Rethinking Video Quality Evaluation Beyond Generative Models
+
+**Rethinking Video Quality Evaluation Beyond Generative Models**
+
+<p align="center">
+  <a href="https://openraiser.github.io/CodingVBench/"><img src="https://img.shields.io/badge/Project-Page-1a6fd4" alt="Project page"></a>
+  <a href="#gallery"><img src="https://img.shields.io/badge/Gallery-99%20prompts%20%C2%B7%20488%20clips-0f8f86" alt="Gallery: 99 prompts, 488 clips"></a>
+  <img src="https://img.shields.io/badge/Data-coming%20soon-FFB000?logo=huggingface&logoColor=white" alt="Data coming soon">
+  <img src="https://img.shields.io/badge/Paper-coming%20soon-lightgrey" alt="Paper coming soon">
+</p>
+
+Video benchmarks such as VBench score visual quality and prompt adherence with metrics validated on **pixel**-generated clips. Coding agents now answer the same prompts through executable scene programs, and the two production routes fail in different ways: a code-rendered baby who wakes and stretches can score **zero** on action, while a pixel-generated baby who stays asleep scores **one**.
+
+CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched code-rendered and MiniMax-H3 clips** on 120 VBench prompts, labelled by three annotators for completion and visual preference, with **60 controlled scene-program edits** that remove required behavior or change only hue while the task stays complete. Eight-frame VLM judges reach **92.7% / 93.9%** agreement with human completion labels, versus **71.6%** for native modules.
+
+| | |
+| --- | --- |
+| Gallery below | 99 prompts × up to 5 routes, 488 clips |
+| Matched set | 360 videos on 120 VBench prompts (Astra, Opus 5.5, MiniMax-H3), 3 annotators |
+| Controlled pairs | 50 behavioral violations + 10 hue-only edits, verified scene programs |
+| Judges | Native UMT / GRiT / LAION modules vs frozen 8-frame GPT-6.1-Sol and Claude Sonnet 5.5 |
+
+## Contents
+
+- [Gallery](#gallery)
+  - [Human action](#human-action)
+  - [Multiple objects](#multiple-objects)
+  - [Spatial relationship](#spatial-relationship)
+  - [Color](#color)
+  - [Object class](#object-class)
+- [What the labels mean](#what-the-labels-mean)
+- [Results](#results)
+- [Release](#release)
+- [Citation](#citation)
+
+## Gallery
+
+Every clip is clickable: the thumbnail opens the video on the [project page](https://openraiser.github.io/CodingVBench/), where you can also compare any two routes side by side with a draggable split view, filter by category, and read the VBench, human and VLM judgments for each prompt.
+
+488 clips over 99 prompts. All 5 routes answer the same prompt: four coding models write a scene program and render it, MiniMax-H3 generates pixels directly. Thumbnails are a single frame of the clip they open.
+
+The gallery draws on the broader VBench generation study behind the benchmark (four coding models plus MiniMax-H3). The core matched set that carries three-annotator labels is the 120-prompt subset.
+
+### Human action
+
+_44 prompts._
+
+<table>
+<tr>
+<th width="20%" align="center"><sub>Astra</sub></th>
+<th width="20%" align="center"><sub>Opus 5.5</sub></th>
+<th width="20%" align="center"><sub>Opus 4.8</sub></th>
+<th width="20%" align="center"><sub>GPT-6.1-Sol</sub></th>
+<th width="20%" align="center"><sub>H3</sub></th>
+</tr>
+<tr>
+<td colspan="5"><b>A person is air drumming</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20air%20drumming-2.mp4"><img src="docs/thumbs/astra/a-person-is-air-drumming-2.jpg" width="100%" alt="A person is air drumming — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20air%20drumming-2.mp4"><img src="docs/thumbs/opus/a-person-is-air-drumming-2.jpg" width="100%" alt="A person is air drumming — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20air%20drumming-2.mp4"><img src="docs/thumbs/opus48/a-person-is-air-drumming-2.jpg" width="100%" alt="A person is air drumming — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20air%20drumming-2.mp4"><img src="docs/thumbs/sol/a-person-is-air-drumming-2.jpg" width="100%" alt="A person is air drumming — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20air%20drumming-2.mp4"><img src="docs/thumbs/h3/a-person-is-air-drumming-2.jpg" width="100%" alt="A person is air drumming — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is baby waking up</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/thumbs/astra/a-person-is-baby-waking-up-4.jpg" width="100%" alt="A person is baby waking up — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/thumbs/opus/a-person-is-baby-waking-up-4.jpg" width="100%" alt="A person is baby waking up — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/thumbs/opus48/a-person-is-baby-waking-up-4.jpg" width="100%" alt="A person is baby waking up — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/thumbs/sol/a-person-is-baby-waking-up-4.jpg" width="100%" alt="A person is baby waking up — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20baby%20waking%20up-4.mp4"><img src="docs/thumbs/h3/a-person-is-baby-waking-up-4.jpg" width="100%" alt="A person is baby waking up — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is bandaging</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bandaging-4.mp4"><img src="docs/thumbs/astra/a-person-is-bandaging-4.jpg" width="100%" alt="A person is bandaging — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bandaging-4.mp4"><img src="docs/thumbs/opus/a-person-is-bandaging-4.jpg" width="100%" alt="A person is bandaging — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20bandaging-4.mp4"><img src="docs/thumbs/opus48/a-person-is-bandaging-4.jpg" width="100%" alt="A person is bandaging — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bandaging-4.mp4"><img src="docs/thumbs/sol/a-person-is-bandaging-4.jpg" width="100%" alt="A person is bandaging — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bandaging-4.mp4"><img src="docs/thumbs/h3/a-person-is-bandaging-4.jpg" width="100%" alt="A person is bandaging — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is digging</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20digging-3.mp4"><img src="docs/thumbs/astra/a-person-is-digging-3.jpg" width="100%" alt="A person is digging — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20digging-3.mp4"><img src="docs/thumbs/opus/a-person-is-digging-3.jpg" width="100%" alt="A person is digging — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20digging-3.mp4"><img src="docs/thumbs/opus48/a-person-is-digging-3.jpg" width="100%" alt="A person is digging — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20digging-3.mp4"><img src="docs/thumbs/sol/a-person-is-digging-3.jpg" width="100%" alt="A person is digging — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20digging-3.mp4"><img src="docs/thumbs/h3/a-person-is-digging-3.jpg" width="100%" alt="A person is digging — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is making bed</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20making%20bed-3.mp4"><img src="docs/thumbs/astra/a-person-is-making-bed-3.jpg" width="100%" alt="A person is making bed — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20making%20bed-3.mp4"><img src="docs/thumbs/opus/a-person-is-making-bed-3.jpg" width="100%" alt="A person is making bed — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20making%20bed-3.mp4"><img src="docs/thumbs/opus48/a-person-is-making-bed-3.jpg" width="100%" alt="A person is making bed — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20making%20bed-3.mp4"><img src="docs/thumbs/sol/a-person-is-making-bed-3.jpg" width="100%" alt="A person is making bed — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20making%20bed-3.mp4"><img src="docs/thumbs/h3/a-person-is-making-bed-3.jpg" width="100%" alt="A person is making bed — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is marching</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20marching-1.mp4"><img src="docs/thumbs/astra/a-person-is-marching-1.jpg" width="100%" alt="A person is marching — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20marching-1.mp4"><img src="docs/thumbs/opus/a-person-is-marching-1.jpg" width="100%" alt="A person is marching — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20marching-1.mp4"><img src="docs/thumbs/opus48/a-person-is-marching-1.jpg" width="100%" alt="A person is marching — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20marching-1.mp4"><img src="docs/thumbs/sol/a-person-is-marching-1.jpg" width="100%" alt="A person is marching — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20marching-1.mp4"><img src="docs/thumbs/h3/a-person-is-marching-1.jpg" width="100%" alt="A person is marching — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is massaging legs</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/thumbs/astra/a-person-is-massaging-legs-1.jpg" width="100%" alt="A person is massaging legs — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/thumbs/opus/a-person-is-massaging-legs-1.jpg" width="100%" alt="A person is massaging legs — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/thumbs/opus48/a-person-is-massaging-legs-1.jpg" width="100%" alt="A person is massaging legs — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/thumbs/sol/a-person-is-massaging-legs-1.jpg" width="100%" alt="A person is massaging legs — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20massaging%20legs-1.mp4"><img src="docs/thumbs/h3/a-person-is-massaging-legs-1.jpg" width="100%" alt="A person is massaging legs — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is massaging legs</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20massaging%20legs-4.mp4"><img src="docs/thumbs/astra/a-person-is-massaging-legs-4.jpg" width="100%" alt="A person is massaging legs — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20massaging%20legs-4.mp4"><img src="docs/thumbs/opus/a-person-is-massaging-legs-4.jpg" width="100%" alt="A person is massaging legs — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20massaging%20legs-4.mp4"><img src="docs/thumbs/opus48/a-person-is-massaging-legs-4.jpg" width="100%" alt="A person is massaging legs — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20massaging%20legs-4.mp4"><img src="docs/thumbs/sol/a-person-is-massaging-legs-4.jpg" width="100%" alt="A person is massaging legs — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20massaging%20legs-4.mp4"><img src="docs/thumbs/h3/a-person-is-massaging-legs-4.jpg" width="100%" alt="A person is massaging legs — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is petting animal (not cat)</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20petting%20animal%20%28not%20cat%29-4.mp4"><img src="docs/thumbs/astra/a-person-is-petting-animal-not-cat-4.jpg" width="100%" alt="A person is petting animal (not cat) — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20petting%20animal%20%28not%20cat%29-4.mp4"><img src="docs/thumbs/opus/a-person-is-petting-animal-not-cat-4.jpg" width="100%" alt="A person is petting animal (not cat) — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20petting%20animal%20%28not%20cat%29-4.mp4"><img src="docs/thumbs/opus48/a-person-is-petting-animal-not-cat-4.jpg" width="100%" alt="A person is petting animal (not cat) — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20petting%20animal%20%28not%20cat%29-4.mp4"><img src="docs/thumbs/sol/a-person-is-petting-animal-not-cat-4.jpg" width="100%" alt="A person is petting animal (not cat) — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20petting%20animal%20%28not%20cat%29-4.mp4"><img src="docs/thumbs/h3/a-person-is-petting-animal-not-cat-4.jpg" width="100%" alt="A person is petting animal (not cat) — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is planting trees</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/thumbs/astra/a-person-is-planting-trees-0.jpg" width="100%" alt="A person is planting trees — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/thumbs/opus/a-person-is-planting-trees-0.jpg" width="100%" alt="A person is planting trees — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/thumbs/opus48/a-person-is-planting-trees-0.jpg" width="100%" alt="A person is planting trees — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/thumbs/sol/a-person-is-planting-trees-0.jpg" width="100%" alt="A person is planting trees — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20planting%20trees-0.mp4"><img src="docs/thumbs/h3/a-person-is-planting-trees-0.jpg" width="100%" alt="A person is planting trees — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is push up</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20push%20up-4.mp4"><img src="docs/thumbs/astra/a-person-is-push-up-4.jpg" width="100%" alt="A person is push up — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20push%20up-4.mp4"><img src="docs/thumbs/opus/a-person-is-push-up-4.jpg" width="100%" alt="A person is push up — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20push%20up-4.mp4"><img src="docs/thumbs/opus48/a-person-is-push-up-4.jpg" width="100%" alt="A person is push up — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20push%20up-4.mp4"><img src="docs/thumbs/sol/a-person-is-push-up-4.jpg" width="100%" alt="A person is push up — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20push%20up-4.mp4"><img src="docs/thumbs/h3/a-person-is-push-up-4.jpg" width="100%" alt="A person is push up — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is sharpening knives</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/thumbs/astra/a-person-is-sharpening-knives-0.jpg" width="100%" alt="A person is sharpening knives — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/thumbs/opus/a-person-is-sharpening-knives-0.jpg" width="100%" alt="A person is sharpening knives — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/thumbs/opus48/a-person-is-sharpening-knives-0.jpg" width="100%" alt="A person is sharpening knives — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/thumbs/sol/a-person-is-sharpening-knives-0.jpg" width="100%" alt="A person is sharpening knives — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20sharpening%20knives-0.mp4"><img src="docs/thumbs/h3/a-person-is-sharpening-knives-0.jpg" width="100%" alt="A person is sharpening knives — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is shining shoes</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/thumbs/astra/a-person-is-shining-shoes-0.jpg" width="100%" alt="A person is shining shoes — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/thumbs/opus/a-person-is-shining-shoes-0.jpg" width="100%" alt="A person is shining shoes — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/thumbs/opus48/a-person-is-shining-shoes-0.jpg" width="100%" alt="A person is shining shoes — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/thumbs/sol/a-person-is-shining-shoes-0.jpg" width="100%" alt="A person is shining shoes — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20shining%20shoes-0.mp4"><img src="docs/thumbs/h3/a-person-is-shining-shoes-0.jpg" width="100%" alt="A person is shining shoes — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is shooting basketball</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/thumbs/astra/a-person-is-shooting-basketball-2.jpg" width="100%" alt="A person is shooting basketball — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/thumbs/opus/a-person-is-shooting-basketball-2.jpg" width="100%" alt="A person is shooting basketball — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/thumbs/opus48/a-person-is-shooting-basketball-2.jpg" width="100%" alt="A person is shooting basketball — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/thumbs/sol/a-person-is-shooting-basketball-2.jpg" width="100%" alt="A person is shooting basketball — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20shooting%20basketball-2.mp4"><img src="docs/thumbs/h3/a-person-is-shooting-basketball-2.jpg" width="100%" alt="A person is shooting basketball — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is skydiving</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20skydiving-4.mp4"><img src="docs/thumbs/astra/a-person-is-skydiving-4.jpg" width="100%" alt="A person is skydiving — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20skydiving-4.mp4"><img src="docs/thumbs/opus/a-person-is-skydiving-4.jpg" width="100%" alt="A person is skydiving — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20skydiving-4.mp4"><img src="docs/thumbs/opus48/a-person-is-skydiving-4.jpg" width="100%" alt="A person is skydiving — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20skydiving-4.mp4"><img src="docs/thumbs/sol/a-person-is-skydiving-4.jpg" width="100%" alt="A person is skydiving — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20skydiving-4.mp4"><img src="docs/thumbs/h3/a-person-is-skydiving-4.jpg" width="100%" alt="A person is skydiving — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is air drumming</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/thumbs/astra/a-person-is-air-drumming-0.jpg" width="100%" alt="A person is air drumming — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/thumbs/opus/a-person-is-air-drumming-0.jpg" width="100%" alt="A person is air drumming — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/thumbs/opus48/a-person-is-air-drumming-0.jpg" width="100%" alt="A person is air drumming — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/thumbs/sol/a-person-is-air-drumming-0.jpg" width="100%" alt="A person is air drumming — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20air%20drumming-0.mp4"><img src="docs/thumbs/h3/a-person-is-air-drumming-0.jpg" width="100%" alt="A person is air drumming — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is bending back</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bending%20back-0.mp4"><img src="docs/thumbs/astra/a-person-is-bending-back-0.jpg" width="100%" alt="A person is bending back — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bending%20back-0.mp4"><img src="docs/thumbs/opus/a-person-is-bending-back-0.jpg" width="100%" alt="A person is bending back — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20bending%20back-0.mp4"><img src="docs/thumbs/opus48/a-person-is-bending-back-0.jpg" width="100%" alt="A person is bending back — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bending%20back-0.mp4"><img src="docs/thumbs/sol/a-person-is-bending-back-0.jpg" width="100%" alt="A person is bending back — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bending%20back-0.mp4"><img src="docs/thumbs/h3/a-person-is-bending-back-0.jpg" width="100%" alt="A person is bending back — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is bending metal</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/thumbs/astra/a-person-is-bending-metal-0.jpg" width="100%" alt="A person is bending metal — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/thumbs/opus/a-person-is-bending-metal-0.jpg" width="100%" alt="A person is bending metal — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/thumbs/opus48/a-person-is-bending-metal-0.jpg" width="100%" alt="A person is bending metal — Opus 4.8"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bending%20metal-0.mp4"><img src="docs/thumbs/h3/a-person-is-bending-metal-0.jpg" width="100%" alt="A person is bending metal — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is rock scissors paper</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/thumbs/astra/a-person-is-rock-scissors-paper-0.jpg" width="100%" alt="A person is rock scissors paper — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/thumbs/opus/a-person-is-rock-scissors-paper-0.jpg" width="100%" alt="A person is rock scissors paper — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/thumbs/opus48/a-person-is-rock-scissors-paper-0.jpg" width="100%" alt="A person is rock scissors paper — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/thumbs/sol/a-person-is-rock-scissors-paper-0.jpg" width="100%" alt="A person is rock scissors paper — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20rock%20scissors%20paper-0.mp4"><img src="docs/thumbs/h3/a-person-is-rock-scissors-paper-0.jpg" width="100%" alt="A person is rock scissors paper — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is washing dishes</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/thumbs/astra/a-person-is-washing-dishes-0.jpg" width="100%" alt="A person is washing dishes — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/thumbs/opus/a-person-is-washing-dishes-0.jpg" width="100%" alt="A person is washing dishes — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/thumbs/opus48/a-person-is-washing-dishes-0.jpg" width="100%" alt="A person is washing dishes — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/thumbs/sol/a-person-is-washing-dishes-0.jpg" width="100%" alt="A person is washing dishes — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20washing%20dishes-0.mp4"><img src="docs/thumbs/h3/a-person-is-washing-dishes-0.jpg" width="100%" alt="A person is washing dishes — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is arranging flowers</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/thumbs/astra/a-person-is-arranging-flowers-0.jpg" width="100%" alt="A person is arranging flowers — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/thumbs/opus/a-person-is-arranging-flowers-0.jpg" width="100%" alt="A person is arranging flowers — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/thumbs/opus48/a-person-is-arranging-flowers-0.jpg" width="100%" alt="A person is arranging flowers — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/thumbs/sol/a-person-is-arranging-flowers-0.jpg" width="100%" alt="A person is arranging flowers — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20arranging%20flowers-0.mp4"><img src="docs/thumbs/h3/a-person-is-arranging-flowers-0.jpg" width="100%" alt="A person is arranging flowers — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is bending back</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bending%20back-2.mp4"><img src="docs/thumbs/astra/a-person-is-bending-back-2.jpg" width="100%" alt="A person is bending back — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bending%20back-2.mp4"><img src="docs/thumbs/opus/a-person-is-bending-back-2.jpg" width="100%" alt="A person is bending back — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20bending%20back-2.mp4"><img src="docs/thumbs/opus48/a-person-is-bending-back-2.jpg" width="100%" alt="A person is bending back — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bending%20back-2.mp4"><img src="docs/thumbs/sol/a-person-is-bending-back-2.jpg" width="100%" alt="A person is bending back — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bending%20back-2.mp4"><img src="docs/thumbs/h3/a-person-is-bending-back-2.jpg" width="100%" alt="A person is bending back — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is brushing teeth</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/thumbs/astra/a-person-is-brushing-teeth-0.jpg" width="100%" alt="A person is brushing teeth — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/thumbs/opus/a-person-is-brushing-teeth-0.jpg" width="100%" alt="A person is brushing teeth — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/thumbs/opus48/a-person-is-brushing-teeth-0.jpg" width="100%" alt="A person is brushing teeth — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/thumbs/sol/a-person-is-brushing-teeth-0.jpg" width="100%" alt="A person is brushing teeth — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20brushing%20teeth-0.mp4"><img src="docs/thumbs/h3/a-person-is-brushing-teeth-0.jpg" width="100%" alt="A person is brushing teeth — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is catching or throwing baseball</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/thumbs/astra/a-person-is-catching-or-throwing-baseball-0.jpg" width="100%" alt="A person is catching or throwing baseball — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/thumbs/opus/a-person-is-catching-or-throwing-baseball-0.jpg" width="100%" alt="A person is catching or throwing baseball — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/thumbs/opus48/a-person-is-catching-or-throwing-baseball-0.jpg" width="100%" alt="A person is catching or throwing baseball — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/thumbs/sol/a-person-is-catching-or-throwing-baseball-0.jpg" width="100%" alt="A person is catching or throwing baseball — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20catching%20or%20throwing%20baseball-0.mp4"><img src="docs/thumbs/h3/a-person-is-catching-or-throwing-baseball-0.jpg" width="100%" alt="A person is catching or throwing baseball — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is cheerleading</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20cheerleading-1.mp4"><img src="docs/thumbs/astra/a-person-is-cheerleading-1.jpg" width="100%" alt="A person is cheerleading — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20cheerleading-1.mp4"><img src="docs/thumbs/opus/a-person-is-cheerleading-1.jpg" width="100%" alt="A person is cheerleading — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20cheerleading-1.mp4"><img src="docs/thumbs/opus48/a-person-is-cheerleading-1.jpg" width="100%" alt="A person is cheerleading — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20cheerleading-1.mp4"><img src="docs/thumbs/sol/a-person-is-cheerleading-1.jpg" width="100%" alt="A person is cheerleading — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20cheerleading-1.mp4"><img src="docs/thumbs/h3/a-person-is-cheerleading-1.jpg" width="100%" alt="A person is cheerleading — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is clay pottery making</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/thumbs/astra/a-person-is-clay-pottery-making-0.jpg" width="100%" alt="A person is clay pottery making — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/thumbs/opus/a-person-is-clay-pottery-making-0.jpg" width="100%" alt="A person is clay pottery making — Opus 5.5"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/thumbs/sol/a-person-is-clay-pottery-making-0.jpg" width="100%" alt="A person is clay pottery making — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20clay%20pottery%20making-0.mp4"><img src="docs/thumbs/h3/a-person-is-clay-pottery-making-0.jpg" width="100%" alt="A person is clay pottery making — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is climbing a rope</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/thumbs/astra/a-person-is-climbing-a-rope-1.jpg" width="100%" alt="A person is climbing a rope — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/thumbs/opus/a-person-is-climbing-a-rope-1.jpg" width="100%" alt="A person is climbing a rope — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/thumbs/opus48/a-person-is-climbing-a-rope-1.jpg" width="100%" alt="A person is climbing a rope — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/thumbs/sol/a-person-is-climbing-a-rope-1.jpg" width="100%" alt="A person is climbing a rope — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20climbing%20a%20rope-1.mp4"><img src="docs/thumbs/h3/a-person-is-climbing-a-rope-1.jpg" width="100%" alt="A person is climbing a rope — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is cutting watermelon</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/thumbs/astra/a-person-is-cutting-watermelon-0.jpg" width="100%" alt="A person is cutting watermelon — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/thumbs/opus/a-person-is-cutting-watermelon-0.jpg" width="100%" alt="A person is cutting watermelon — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/thumbs/opus48/a-person-is-cutting-watermelon-0.jpg" width="100%" alt="A person is cutting watermelon — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/thumbs/sol/a-person-is-cutting-watermelon-0.jpg" width="100%" alt="A person is cutting watermelon — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20cutting%20watermelon-0.mp4"><img src="docs/thumbs/h3/a-person-is-cutting-watermelon-0.jpg" width="100%" alt="A person is cutting watermelon — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is doing laundry</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/thumbs/astra/a-person-is-doing-laundry-0.jpg" width="100%" alt="A person is doing laundry — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/thumbs/opus/a-person-is-doing-laundry-0.jpg" width="100%" alt="A person is doing laundry — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/thumbs/opus48/a-person-is-doing-laundry-0.jpg" width="100%" alt="A person is doing laundry — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/thumbs/sol/a-person-is-doing-laundry-0.jpg" width="100%" alt="A person is doing laundry — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20doing%20laundry-0.mp4"><img src="docs/thumbs/h3/a-person-is-doing-laundry-0.jpg" width="100%" alt="A person is doing laundry — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is flying kite</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/thumbs/astra/a-person-is-flying-kite-0.jpg" width="100%" alt="A person is flying kite — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/thumbs/opus/a-person-is-flying-kite-0.jpg" width="100%" alt="A person is flying kite — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/thumbs/opus48/a-person-is-flying-kite-0.jpg" width="100%" alt="A person is flying kite — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/thumbs/sol/a-person-is-flying-kite-0.jpg" width="100%" alt="A person is flying kite — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20flying%20kite-0.mp4"><img src="docs/thumbs/h3/a-person-is-flying-kite-0.jpg" width="100%" alt="A person is flying kite — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is giving or receiving award</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/thumbs/astra/a-person-is-giving-or-receiving-award-0.jpg" width="100%" alt="A person is giving or receiving award — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/thumbs/opus/a-person-is-giving-or-receiving-award-0.jpg" width="100%" alt="A person is giving or receiving award — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/thumbs/opus48/a-person-is-giving-or-receiving-award-0.jpg" width="100%" alt="A person is giving or receiving award — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/thumbs/sol/a-person-is-giving-or-receiving-award-0.jpg" width="100%" alt="A person is giving or receiving award — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20giving%20or%20receiving%20award-0.mp4"><img src="docs/thumbs/h3/a-person-is-giving-or-receiving-award-0.jpg" width="100%" alt="A person is giving or receiving award — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is knitting</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20knitting-0.mp4"><img src="docs/thumbs/astra/a-person-is-knitting-0.jpg" width="100%" alt="A person is knitting — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20knitting-0.mp4"><img src="docs/thumbs/opus/a-person-is-knitting-0.jpg" width="100%" alt="A person is knitting — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20knitting-0.mp4"><img src="docs/thumbs/opus48/a-person-is-knitting-0.jpg" width="100%" alt="A person is knitting — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20knitting-0.mp4"><img src="docs/thumbs/sol/a-person-is-knitting-0.jpg" width="100%" alt="A person is knitting — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20knitting-0.mp4"><img src="docs/thumbs/h3/a-person-is-knitting-0.jpg" width="100%" alt="A person is knitting — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is motorcycling</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20motorcycling-0.mp4"><img src="docs/thumbs/astra/a-person-is-motorcycling-0.jpg" width="100%" alt="A person is motorcycling — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20motorcycling-0.mp4"><img src="docs/thumbs/opus/a-person-is-motorcycling-0.jpg" width="100%" alt="A person is motorcycling — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20motorcycling-0.mp4"><img src="docs/thumbs/opus48/a-person-is-motorcycling-0.jpg" width="100%" alt="A person is motorcycling — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20motorcycling-0.mp4"><img src="docs/thumbs/sol/a-person-is-motorcycling-0.jpg" width="100%" alt="A person is motorcycling — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20motorcycling-0.mp4"><img src="docs/thumbs/h3/a-person-is-motorcycling-0.jpg" width="100%" alt="A person is motorcycling — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is petting animal (not cat)</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/thumbs/astra/a-person-is-petting-animal-not-cat-0.jpg" width="100%" alt="A person is petting animal (not cat) — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/thumbs/opus/a-person-is-petting-animal-not-cat-0.jpg" width="100%" alt="A person is petting animal (not cat) — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/thumbs/opus48/a-person-is-petting-animal-not-cat-0.jpg" width="100%" alt="A person is petting animal (not cat) — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/thumbs/sol/a-person-is-petting-animal-not-cat-0.jpg" width="100%" alt="A person is petting animal (not cat) — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20petting%20animal%20%28not%20cat%29-0.mp4"><img src="docs/thumbs/h3/a-person-is-petting-animal-not-cat-0.jpg" width="100%" alt="A person is petting animal (not cat) — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is playing chess</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/thumbs/astra/a-person-is-playing-chess-0.jpg" width="100%" alt="A person is playing chess — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/thumbs/opus/a-person-is-playing-chess-0.jpg" width="100%" alt="A person is playing chess — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/thumbs/opus48/a-person-is-playing-chess-0.jpg" width="100%" alt="A person is playing chess — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/thumbs/sol/a-person-is-playing-chess-0.jpg" width="100%" alt="A person is playing chess — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20playing%20chess-0.mp4"><img src="docs/thumbs/h3/a-person-is-playing-chess-0.jpg" width="100%" alt="A person is playing chess — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is playing flute</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/thumbs/astra/a-person-is-playing-flute-0.jpg" width="100%" alt="A person is playing flute — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/thumbs/opus/a-person-is-playing-flute-0.jpg" width="100%" alt="A person is playing flute — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/thumbs/opus48/a-person-is-playing-flute-0.jpg" width="100%" alt="A person is playing flute — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/thumbs/sol/a-person-is-playing-flute-0.jpg" width="100%" alt="A person is playing flute — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20playing%20flute-0.mp4"><img src="docs/thumbs/h3/a-person-is-playing-flute-0.jpg" width="100%" alt="A person is playing flute — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is pushing cart</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/thumbs/astra/a-person-is-pushing-cart-0.jpg" width="100%" alt="A person is pushing cart — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/thumbs/opus/a-person-is-pushing-cart-0.jpg" width="100%" alt="A person is pushing cart — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/thumbs/opus48/a-person-is-pushing-cart-0.jpg" width="100%" alt="A person is pushing cart — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/thumbs/sol/a-person-is-pushing-cart-0.jpg" width="100%" alt="A person is pushing cart — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20pushing%20cart-0.mp4"><img src="docs/thumbs/h3/a-person-is-pushing-cart-0.jpg" width="100%" alt="A person is pushing cart — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is riding scooter</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/thumbs/astra/a-person-is-riding-scooter-1.jpg" width="100%" alt="A person is riding scooter — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/thumbs/opus/a-person-is-riding-scooter-1.jpg" width="100%" alt="A person is riding scooter — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/thumbs/opus48/a-person-is-riding-scooter-1.jpg" width="100%" alt="A person is riding scooter — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/thumbs/sol/a-person-is-riding-scooter-1.jpg" width="100%" alt="A person is riding scooter — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20riding%20scooter-1.mp4"><img src="docs/thumbs/h3/a-person-is-riding-scooter-1.jpg" width="100%" alt="A person is riding scooter — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is robot dancing</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/thumbs/astra/a-person-is-robot-dancing-0.jpg" width="100%" alt="A person is robot dancing — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/thumbs/opus/a-person-is-robot-dancing-0.jpg" width="100%" alt="A person is robot dancing — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/thumbs/opus48/a-person-is-robot-dancing-0.jpg" width="100%" alt="A person is robot dancing — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/thumbs/sol/a-person-is-robot-dancing-0.jpg" width="100%" alt="A person is robot dancing — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20robot%20dancing-0.mp4"><img src="docs/thumbs/h3/a-person-is-robot-dancing-0.jpg" width="100%" alt="A person is robot dancing — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is rock climbing</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/thumbs/astra/a-person-is-rock-climbing-0.jpg" width="100%" alt="A person is rock climbing — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/thumbs/opus/a-person-is-rock-climbing-0.jpg" width="100%" alt="A person is rock climbing — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/thumbs/opus48/a-person-is-rock-climbing-0.jpg" width="100%" alt="A person is rock climbing — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/thumbs/sol/a-person-is-rock-climbing-0.jpg" width="100%" alt="A person is rock climbing — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20rock%20climbing-0.mp4"><img src="docs/thumbs/h3/a-person-is-rock-climbing-0.jpg" width="100%" alt="A person is rock climbing — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is tai chi</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/thumbs/astra/a-person-is-tai-chi-0.jpg" width="100%" alt="A person is tai chi — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/thumbs/opus/a-person-is-tai-chi-0.jpg" width="100%" alt="A person is tai chi — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/thumbs/opus48/a-person-is-tai-chi-0.jpg" width="100%" alt="A person is tai chi — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/thumbs/sol/a-person-is-tai-chi-0.jpg" width="100%" alt="A person is tai chi — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20tai%20chi-0.mp4"><img src="docs/thumbs/h3/a-person-is-tai-chi-0.jpg" width="100%" alt="A person is tai chi — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is taking a shower</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/thumbs/astra/a-person-is-taking-a-shower-0.jpg" width="100%" alt="A person is taking a shower — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/thumbs/opus/a-person-is-taking-a-shower-0.jpg" width="100%" alt="A person is taking a shower — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/thumbs/opus48/a-person-is-taking-a-shower-0.jpg" width="100%" alt="A person is taking a shower — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/thumbs/sol/a-person-is-taking-a-shower-0.jpg" width="100%" alt="A person is taking a shower — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20taking%20a%20shower-0.mp4"><img src="docs/thumbs/h3/a-person-is-taking-a-shower-0.jpg" width="100%" alt="A person is taking a shower — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is tasting beer</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/thumbs/astra/a-person-is-tasting-beer-0.jpg" width="100%" alt="A person is tasting beer — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/thumbs/opus/a-person-is-tasting-beer-0.jpg" width="100%" alt="A person is tasting beer — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/thumbs/opus48/a-person-is-tasting-beer-0.jpg" width="100%" alt="A person is tasting beer — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/thumbs/sol/a-person-is-tasting-beer-0.jpg" width="100%" alt="A person is tasting beer — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20tasting%20beer-0.mp4"><img src="docs/thumbs/h3/a-person-is-tasting-beer-0.jpg" width="100%" alt="A person is tasting beer — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>A person is writing</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20writing-0.mp4"><img src="docs/thumbs/astra/a-person-is-writing-0.jpg" width="100%" alt="A person is writing — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20writing-0.mp4"><img src="docs/thumbs/opus/a-person-is-writing-0.jpg" width="100%" alt="A person is writing — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/A%20person%20is%20writing-0.mp4"><img src="docs/thumbs/opus48/a-person-is-writing-0.jpg" width="100%" alt="A person is writing — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20writing-0.mp4"><img src="docs/thumbs/sol/a-person-is-writing-0.jpg" width="100%" alt="A person is writing — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20writing-0.mp4"><img src="docs/thumbs/h3/a-person-is-writing-0.jpg" width="100%" alt="A person is writing — H3"></a></td>
+</tr>
+</table>
+
+### Multiple objects
+
+_21 prompts._
+
+<table>
+<tr>
+<th width="20%" align="center"><sub>Astra</sub></th>
+<th width="20%" align="center"><sub>Opus 5.5</sub></th>
+<th width="20%" align="center"><sub>Opus 4.8</sub></th>
+<th width="20%" align="center"><sub>GPT-6.1-Sol</sub></th>
+<th width="20%" align="center"><sub>H3</sub></th>
+</tr>
+<tr>
+<td colspan="5"><b>a clock and a backpack</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/thumbs/astra/a-clock-and-a-backpack-2.jpg" width="100%" alt="a clock and a backpack — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/thumbs/opus/a-clock-and-a-backpack-2.jpg" width="100%" alt="a clock and a backpack — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/thumbs/opus48/a-clock-and-a-backpack-2.jpg" width="100%" alt="a clock and a backpack — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/thumbs/sol/a-clock-and-a-backpack-2.jpg" width="100%" alt="a clock and a backpack — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20clock%20and%20a%20backpack-2.mp4"><img src="docs/thumbs/h3/a-clock-and-a-backpack-2.jpg" width="100%" alt="a clock and a backpack — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a pizza and a tie</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/thumbs/astra/a-pizza-and-a-tie-0.jpg" width="100%" alt="a pizza and a tie — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/thumbs/opus/a-pizza-and-a-tie-0.jpg" width="100%" alt="a pizza and a tie — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/thumbs/opus48/a-pizza-and-a-tie-0.jpg" width="100%" alt="a pizza and a tie — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/thumbs/sol/a-pizza-and-a-tie-0.jpg" width="100%" alt="a pizza and a tie — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza%20and%20a%20tie-0.mp4"><img src="docs/thumbs/h3/a-pizza-and-a-tie-0.jpg" width="100%" alt="a pizza and a tie — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a tennis racket and a bottle</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/thumbs/astra/a-tennis-racket-and-a-bottle-0.jpg" width="100%" alt="a tennis racket and a bottle — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/thumbs/opus/a-tennis-racket-and-a-bottle-0.jpg" width="100%" alt="a tennis racket and a bottle — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/thumbs/opus48/a-tennis-racket-and-a-bottle-0.jpg" width="100%" alt="a tennis racket and a bottle — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/thumbs/sol/a-tennis-racket-and-a-bottle-0.jpg" width="100%" alt="a tennis racket and a bottle — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tennis%20racket%20and%20a%20bottle-0.mp4"><img src="docs/thumbs/h3/a-tennis-racket-and-a-bottle-0.jpg" width="100%" alt="a tennis racket and a bottle — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a truck and a bicycle</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/thumbs/astra/a-truck-and-a-bicycle-1.jpg" width="100%" alt="a truck and a bicycle — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/thumbs/opus/a-truck-and-a-bicycle-1.jpg" width="100%" alt="a truck and a bicycle — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/thumbs/opus48/a-truck-and-a-bicycle-1.jpg" width="100%" alt="a truck and a bicycle — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/thumbs/sol/a-truck-and-a-bicycle-1.jpg" width="100%" alt="a truck and a bicycle — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20truck%20and%20a%20bicycle-1.mp4"><img src="docs/thumbs/h3/a-truck-and-a-bicycle-1.jpg" width="100%" alt="a truck and a bicycle — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a zebra and a giraffe</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/thumbs/astra/a-zebra-and-a-giraffe-2.jpg" width="100%" alt="a zebra and a giraffe — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/thumbs/opus/a-zebra-and-a-giraffe-2.jpg" width="100%" alt="a zebra and a giraffe — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/thumbs/opus48/a-zebra-and-a-giraffe-2.jpg" width="100%" alt="a zebra and a giraffe — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/thumbs/sol/a-zebra-and-a-giraffe-2.jpg" width="100%" alt="a zebra and a giraffe — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20zebra%20and%20a%20giraffe-2.mp4"><img src="docs/thumbs/h3/a-zebra-and-a-giraffe-2.jpg" width="100%" alt="a zebra and a giraffe — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an apple and a cell phone</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/thumbs/astra/an-apple-and-a-cell-phone-1.jpg" width="100%" alt="an apple and a cell phone — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/thumbs/opus/an-apple-and-a-cell-phone-1.jpg" width="100%" alt="an apple and a cell phone — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/thumbs/opus48/an-apple-and-a-cell-phone-1.jpg" width="100%" alt="an apple and a cell phone — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/thumbs/sol/an-apple-and-a-cell-phone-1.jpg" width="100%" alt="an apple and a cell phone — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20apple%20and%20a%20cell%20phone-1.mp4"><img src="docs/thumbs/h3/an-apple-and-a-cell-phone-1.jpg" width="100%" alt="an apple and a cell phone — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an elephant and a bear</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/thumbs/astra/an-elephant-and-a-bear-0.jpg" width="100%" alt="an elephant and a bear — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/thumbs/opus/an-elephant-and-a-bear-0.jpg" width="100%" alt="an elephant and a bear — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/thumbs/opus48/an-elephant-and-a-bear-0.jpg" width="100%" alt="an elephant and a bear — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/thumbs/sol/an-elephant-and-a-bear-0.jpg" width="100%" alt="an elephant and a bear — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20elephant%20and%20a%20bear-0.mp4"><img src="docs/thumbs/h3/an-elephant-and-a-bear-0.jpg" width="100%" alt="an elephant and a bear — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>broccoli and a backpack</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/thumbs/astra/broccoli-and-a-backpack-4.jpg" width="100%" alt="broccoli and a backpack — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/thumbs/opus/broccoli-and-a-backpack-4.jpg" width="100%" alt="broccoli and a backpack — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/thumbs/opus48/broccoli-and-a-backpack-4.jpg" width="100%" alt="broccoli and a backpack — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/thumbs/sol/broccoli-and-a-backpack-4.jpg" width="100%" alt="broccoli and a backpack — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/broccoli%20and%20a%20backpack-4.mp4"><img src="docs/thumbs/h3/broccoli-and-a-backpack-4.jpg" width="100%" alt="broccoli and a backpack — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a handbag and a tie</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/thumbs/astra/a-handbag-and-a-tie-0.jpg" width="100%" alt="a handbag and a tie — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/thumbs/opus/a-handbag-and-a-tie-0.jpg" width="100%" alt="a handbag and a tie — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/thumbs/opus48/a-handbag-and-a-tie-0.jpg" width="100%" alt="a handbag and a tie — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/thumbs/sol/a-handbag-and-a-tie-0.jpg" width="100%" alt="a handbag and a tie — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20handbag%20and%20a%20tie-0.mp4"><img src="docs/thumbs/h3/a-handbag-and-a-tie-0.jpg" width="100%" alt="a handbag and a tie — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a motorcycle and a boat</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/thumbs/astra/a-motorcycle-and-a-boat-2.jpg" width="100%" alt="a motorcycle and a boat — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/thumbs/opus/a-motorcycle-and-a-boat-2.jpg" width="100%" alt="a motorcycle and a boat — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/thumbs/opus48/a-motorcycle-and-a-boat-2.jpg" width="100%" alt="a motorcycle and a boat — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/thumbs/sol/a-motorcycle-and-a-boat-2.jpg" width="100%" alt="a motorcycle and a boat — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20motorcycle%20and%20a%20boat-2.mp4"><img src="docs/thumbs/h3/a-motorcycle-and-a-boat-2.jpg" width="100%" alt="a motorcycle and a boat — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a remote and a keyboard</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/thumbs/astra/a-remote-and-a-keyboard-1.jpg" width="100%" alt="a remote and a keyboard — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/thumbs/opus/a-remote-and-a-keyboard-1.jpg" width="100%" alt="a remote and a keyboard — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/thumbs/opus48/a-remote-and-a-keyboard-1.jpg" width="100%" alt="a remote and a keyboard — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/thumbs/sol/a-remote-and-a-keyboard-1.jpg" width="100%" alt="a remote and a keyboard — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20remote%20and%20a%20keyboard-1.mp4"><img src="docs/thumbs/h3/a-remote-and-a-keyboard-1.jpg" width="100%" alt="a remote and a keyboard — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a toilet and a hair drier</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/thumbs/astra/a-toilet-and-a-hair-drier-1.jpg" width="100%" alt="a toilet and a hair drier — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/thumbs/opus/a-toilet-and-a-hair-drier-1.jpg" width="100%" alt="a toilet and a hair drier — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/thumbs/opus48/a-toilet-and-a-hair-drier-1.jpg" width="100%" alt="a toilet and a hair drier — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/thumbs/sol/a-toilet-and-a-hair-drier-1.jpg" width="100%" alt="a toilet and a hair drier — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20toilet%20and%20a%20hair%20drier-1.mp4"><img src="docs/thumbs/h3/a-toilet-and-a-hair-drier-1.jpg" width="100%" alt="a toilet and a hair drier — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>skis and a snowboard</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/skis%20and%20a%20snowboard-0.mp4"><img src="docs/thumbs/astra/skis-and-a-snowboard-0.jpg" width="100%" alt="skis and a snowboard — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/skis%20and%20a%20snowboard-0.mp4"><img src="docs/thumbs/opus/skis-and-a-snowboard-0.jpg" width="100%" alt="skis and a snowboard — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/skis%20and%20a%20snowboard-0.mp4"><img src="docs/thumbs/opus48/skis-and-a-snowboard-0.jpg" width="100%" alt="skis and a snowboard — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/skis%20and%20a%20snowboard-0.mp4"><img src="docs/thumbs/sol/skis-and-a-snowboard-0.jpg" width="100%" alt="skis and a snowboard — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/skis%20and%20a%20snowboard-0.mp4"><img src="docs/thumbs/h3/skis-and-a-snowboard-0.jpg" width="100%" alt="skis and a snowboard — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a banana and a keyboard</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/thumbs/astra/a-banana-and-a-keyboard-2.jpg" width="100%" alt="a banana and a keyboard — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/thumbs/opus/a-banana-and-a-keyboard-2.jpg" width="100%" alt="a banana and a keyboard — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/thumbs/opus48/a-banana-and-a-keyboard-2.jpg" width="100%" alt="a banana and a keyboard — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/thumbs/sol/a-banana-and-a-keyboard-2.jpg" width="100%" alt="a banana and a keyboard — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/thumbs/h3/a-banana-and-a-keyboard-2.jpg" width="100%" alt="a banana and a keyboard — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a bowl and a remote</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/thumbs/astra/a-bowl-and-a-remote-2.jpg" width="100%" alt="a bowl and a remote — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/thumbs/opus/a-bowl-and-a-remote-2.jpg" width="100%" alt="a bowl and a remote — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/thumbs/opus48/a-bowl-and-a-remote-2.jpg" width="100%" alt="a bowl and a remote — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/thumbs/sol/a-bowl-and-a-remote-2.jpg" width="100%" alt="a bowl and a remote — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bowl%20and%20a%20remote-2.mp4"><img src="docs/thumbs/h3/a-bowl-and-a-remote-2.jpg" width="100%" alt="a bowl and a remote — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a bus and a traffic light</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/thumbs/astra/a-bus-and-a-traffic-light-0.jpg" width="100%" alt="a bus and a traffic light — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/thumbs/opus/a-bus-and-a-traffic-light-0.jpg" width="100%" alt="a bus and a traffic light — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/thumbs/opus48/a-bus-and-a-traffic-light-0.jpg" width="100%" alt="a bus and a traffic light — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/thumbs/sol/a-bus-and-a-traffic-light-0.jpg" width="100%" alt="a bus and a traffic light — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bus%20and%20a%20traffic%20light-0.mp4"><img src="docs/thumbs/h3/a-bus-and-a-traffic-light-0.jpg" width="100%" alt="a bus and a traffic light — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a chair and a couch</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/thumbs/astra/a-chair-and-a-couch-0.jpg" width="100%" alt="a chair and a couch — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/thumbs/opus/a-chair-and-a-couch-0.jpg" width="100%" alt="a chair and a couch — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/thumbs/opus48/a-chair-and-a-couch-0.jpg" width="100%" alt="a chair and a couch — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/thumbs/sol/a-chair-and-a-couch-0.jpg" width="100%" alt="a chair and a couch — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/thumbs/h3/a-chair-and-a-couch-0.jpg" width="100%" alt="a chair and a couch — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a person and a hair drier</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/thumbs/astra/a-person-and-a-hair-drier-4.jpg" width="100%" alt="a person and a hair drier — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/thumbs/opus/a-person-and-a-hair-drier-4.jpg" width="100%" alt="a person and a hair drier — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/thumbs/opus48/a-person-and-a-hair-drier-4.jpg" width="100%" alt="a person and a hair drier — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/thumbs/sol/a-person-and-a-hair-drier-4.jpg" width="100%" alt="a person and a hair drier — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20person%20and%20a%20hair%20drier-4.mp4"><img src="docs/thumbs/h3/a-person-and-a-hair-drier-4.jpg" width="100%" alt="a person and a hair drier — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a potted plant and a tv</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/thumbs/astra/a-potted-plant-and-a-tv-2.jpg" width="100%" alt="a potted plant and a tv — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/thumbs/opus/a-potted-plant-and-a-tv-2.jpg" width="100%" alt="a potted plant and a tv — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/thumbs/opus48/a-potted-plant-and-a-tv-2.jpg" width="100%" alt="a potted plant and a tv — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/thumbs/sol/a-potted-plant-and-a-tv-2.jpg" width="100%" alt="a potted plant and a tv — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20potted%20plant%20and%20a%20tv-2.mp4"><img src="docs/thumbs/h3/a-potted-plant-and-a-tv-2.jpg" width="100%" alt="a potted plant and a tv — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a teddy bear and a frisbee</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/thumbs/astra/a-teddy-bear-and-a-frisbee-0.jpg" width="100%" alt="a teddy bear and a frisbee — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/thumbs/opus/a-teddy-bear-and-a-frisbee-0.jpg" width="100%" alt="a teddy bear and a frisbee — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/thumbs/opus48/a-teddy-bear-and-a-frisbee-0.jpg" width="100%" alt="a teddy bear and a frisbee — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/thumbs/sol/a-teddy-bear-and-a-frisbee-0.jpg" width="100%" alt="a teddy bear and a frisbee — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20teddy%20bear%20and%20a%20frisbee-0.mp4"><img src="docs/thumbs/h3/a-teddy-bear-and-a-frisbee-0.jpg" width="100%" alt="a teddy bear and a frisbee — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a traffic light and a fire hydrant</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/thumbs/astra/a-traffic-light-and-a-fire-hydrant-0.jpg" width="100%" alt="a traffic light and a fire hydrant — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/thumbs/opus/a-traffic-light-and-a-fire-hydrant-0.jpg" width="100%" alt="a traffic light and a fire hydrant — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/thumbs/opus48/a-traffic-light-and-a-fire-hydrant-0.jpg" width="100%" alt="a traffic light and a fire hydrant — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/thumbs/sol/a-traffic-light-and-a-fire-hydrant-0.jpg" width="100%" alt="a traffic light and a fire hydrant — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20traffic%20light%20and%20a%20fire%20hydrant-0.mp4"><img src="docs/thumbs/h3/a-traffic-light-and-a-fire-hydrant-0.jpg" width="100%" alt="a traffic light and a fire hydrant — H3"></a></td>
+</tr>
+</table>
+
+### Spatial relationship
+
+_17 prompts._
+
+<table>
+<tr>
+<th width="20%" align="center"><sub>Astra</sub></th>
+<th width="20%" align="center"><sub>Opus 5.5</sub></th>
+<th width="20%" align="center"><sub>Opus 4.8</sub></th>
+<th width="20%" align="center"><sub>GPT-6.1-Sol</sub></th>
+<th width="20%" align="center"><sub>H3</sub></th>
+</tr>
+<tr>
+<td colspan="5"><b>a baseball glove on the right of a tennis racket, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/thumbs/astra/a-baseball-glove-on-the-right-of-a-tennis-racket-front-view-0.jpg" width="100%" alt="a baseball glove on the right of a tennis racket, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus/a-baseball-glove-on-the-right-of-a-tennis-racket-front-view-0.jpg" width="100%" alt="a baseball glove on the right of a tennis racket, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus48/a-baseball-glove-on-the-right-of-a-tennis-racket-front-view-0.jpg" width="100%" alt="a baseball glove on the right of a tennis racket, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/thumbs/sol/a-baseball-glove-on-the-right-of-a-tennis-racket-front-view-0.jpg" width="100%" alt="a baseball glove on the right of a tennis racket, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/thumbs/h3/a-baseball-glove-on-the-right-of-a-tennis-racket-front-view-0.jpg" width="100%" alt="a baseball glove on the right of a tennis racket, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a bear on the right of a zebra, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/thumbs/astra/a-bear-on-the-right-of-a-zebra-front-view-0.jpg" width="100%" alt="a bear on the right of a zebra, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus/a-bear-on-the-right-of-a-zebra-front-view-0.jpg" width="100%" alt="a bear on the right of a zebra, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus48/a-bear-on-the-right-of-a-zebra-front-view-0.jpg" width="100%" alt="a bear on the right of a zebra, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/thumbs/sol/a-bear-on-the-right-of-a-zebra-front-view-0.jpg" width="100%" alt="a bear on the right of a zebra, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bear%20on%20the%20right%20of%20a%20zebra%2C%20front%20view-0.mp4"><img src="docs/thumbs/h3/a-bear-on-the-right-of-a-zebra-front-view-0.jpg" width="100%" alt="a bear on the right of a zebra, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a bicycle on the left of a car, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/thumbs/astra/a-bicycle-on-the-left-of-a-car-front-view-0.jpg" width="100%" alt="a bicycle on the left of a car, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus/a-bicycle-on-the-left-of-a-car-front-view-0.jpg" width="100%" alt="a bicycle on the left of a car, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus48/a-bicycle-on-the-left-of-a-car-front-view-0.jpg" width="100%" alt="a bicycle on the left of a car, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/thumbs/sol/a-bicycle-on-the-left-of-a-car-front-view-0.jpg" width="100%" alt="a bicycle on the left of a car, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bicycle%20on%20the%20left%20of%20a%20car%2C%20front%20view-0.mp4"><img src="docs/thumbs/h3/a-bicycle-on-the-left-of-a-car-front-view-0.jpg" width="100%" alt="a bicycle on the left of a car, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a car on the right of a motorcycle, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/thumbs/astra/a-car-on-the-right-of-a-motorcycle-front-view-0.jpg" width="100%" alt="a car on the right of a motorcycle, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus/a-car-on-the-right-of-a-motorcycle-front-view-0.jpg" width="100%" alt="a car on the right of a motorcycle, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/thumbs/opus48/a-car-on-the-right-of-a-motorcycle-front-view-0.jpg" width="100%" alt="a car on the right of a motorcycle, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/thumbs/sol/a-car-on-the-right-of-a-motorcycle-front-view-0.jpg" width="100%" alt="a car on the right of a motorcycle, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20car%20on%20the%20right%20of%20a%20motorcycle%2C%20front%20view-0.mp4"><img src="docs/thumbs/h3/a-car-on-the-right-of-a-motorcycle-front-view-0.jpg" width="100%" alt="a car on the right of a motorcycle, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a donut on the top of broccoli, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/a-donut-on-the-top-of-broccoli-front-view-1.jpg" width="100%" alt="a donut on the top of broccoli, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/a-donut-on-the-top-of-broccoli-front-view-1.jpg" width="100%" alt="a donut on the top of broccoli, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/a-donut-on-the-top-of-broccoli-front-view-1.jpg" width="100%" alt="a donut on the top of broccoli, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/a-donut-on-the-top-of-broccoli-front-view-1.jpg" width="100%" alt="a donut on the top of broccoli, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20donut%20on%20the%20top%20of%20broccoli%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/a-donut-on-the-top-of-broccoli-front-view-1.jpg" width="100%" alt="a donut on the top of broccoli, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a pizza on the bottom of a donut, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/thumbs/astra/a-pizza-on-the-bottom-of-a-donut-front-view-3.jpg" width="100%" alt="a pizza on the bottom of a donut, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus/a-pizza-on-the-bottom-of-a-donut-front-view-3.jpg" width="100%" alt="a pizza on the bottom of a donut, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus48/a-pizza-on-the-bottom-of-a-donut-front-view-3.jpg" width="100%" alt="a pizza on the bottom of a donut, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/thumbs/sol/a-pizza-on-the-bottom-of-a-donut-front-view-3.jpg" width="100%" alt="a pizza on the bottom of a donut, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza%20on%20the%20bottom%20of%20a%20donut%2C%20front%20view-3.mp4"><img src="docs/thumbs/h3/a-pizza-on-the-bottom-of-a-donut-front-view-3.jpg" width="100%" alt="a pizza on the bottom of a donut, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a sheep on the left of a cow, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/thumbs/astra/a-sheep-on-the-left-of-a-cow-front-view-3.jpg" width="100%" alt="a sheep on the left of a cow, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus/a-sheep-on-the-left-of-a-cow-front-view-3.jpg" width="100%" alt="a sheep on the left of a cow, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus48/a-sheep-on-the-left-of-a-cow-front-view-3.jpg" width="100%" alt="a sheep on the left of a cow, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/thumbs/sol/a-sheep-on-the-left-of-a-cow-front-view-3.jpg" width="100%" alt="a sheep on the left of a cow, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sheep%20on%20the%20left%20of%20a%20cow%2C%20front%20view-3.mp4"><img src="docs/thumbs/h3/a-sheep-on-the-left-of-a-cow-front-view-3.jpg" width="100%" alt="a sheep on the left of a cow, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a snowboard on the bottom of a kite, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-2.mp4"><img src="docs/thumbs/astra/a-snowboard-on-the-bottom-of-a-kite-front-view-2.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-2.mp4"><img src="docs/thumbs/opus/a-snowboard-on-the-bottom-of-a-kite-front-view-2.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-2.mp4"><img src="docs/thumbs/opus48/a-snowboard-on-the-bottom-of-a-kite-front-view-2.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-2.mp4"><img src="docs/thumbs/sol/a-snowboard-on-the-bottom-of-a-kite-front-view-2.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-2.mp4"><img src="docs/thumbs/h3/a-snowboard-on-the-bottom-of-a-kite-front-view-2.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a truck on the right of a bicycle, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/a-truck-on-the-right-of-a-bicycle-front-view-1.jpg" width="100%" alt="a truck on the right of a bicycle, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/a-truck-on-the-right-of-a-bicycle-front-view-1.jpg" width="100%" alt="a truck on the right of a bicycle, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/a-truck-on-the-right-of-a-bicycle-front-view-1.jpg" width="100%" alt="a truck on the right of a bicycle, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/a-truck-on-the-right-of-a-bicycle-front-view-1.jpg" width="100%" alt="a truck on the right of a bicycle, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20truck%20on%20the%20right%20of%20a%20bicycle%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/a-truck-on-the-right-of-a-bicycle-front-view-1.jpg" width="100%" alt="a truck on the right of a bicycle, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an airplane on the left of a train, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/thumbs/astra/an-airplane-on-the-left-of-a-train-front-view-4.jpg" width="100%" alt="an airplane on the left of a train, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/thumbs/opus/an-airplane-on-the-left-of-a-train-front-view-4.jpg" width="100%" alt="an airplane on the left of a train, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/thumbs/opus48/an-airplane-on-the-left-of-a-train-front-view-4.jpg" width="100%" alt="an airplane on the left of a train, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/thumbs/sol/an-airplane-on-the-left-of-a-train-front-view-4.jpg" width="100%" alt="an airplane on the left of a train, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20airplane%20on%20the%20left%20of%20a%20train%2C%20front%20view-4.mp4"><img src="docs/thumbs/h3/an-airplane-on-the-left-of-a-train-front-view-4.jpg" width="100%" alt="an airplane on the left of a train, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an apple on the bottom of a sandwich, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/thumbs/astra/an-apple-on-the-bottom-of-a-sandwich-front-view-3.jpg" width="100%" alt="an apple on the bottom of a sandwich, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus/an-apple-on-the-bottom-of-a-sandwich-front-view-3.jpg" width="100%" alt="an apple on the bottom of a sandwich, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus48/an-apple-on-the-bottom-of-a-sandwich-front-view-3.jpg" width="100%" alt="an apple on the bottom of a sandwich, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/thumbs/sol/an-apple-on-the-bottom-of-a-sandwich-front-view-3.jpg" width="100%" alt="an apple on the bottom of a sandwich, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20apple%20on%20the%20bottom%20of%20a%20sandwich%2C%20front%20view-3.mp4"><img src="docs/thumbs/h3/an-apple-on-the-bottom-of-a-sandwich-front-view-3.jpg" width="100%" alt="an apple on the bottom of a sandwich, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an orange on the top of a carrot, front view</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/an-orange-on-the-top-of-a-carrot-front-view-1.jpg" width="100%" alt="an orange on the top of a carrot, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/an-orange-on-the-top-of-a-carrot-front-view-1.jpg" width="100%" alt="an orange on the top of a carrot, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/an-orange-on-the-top-of-a-carrot-front-view-1.jpg" width="100%" alt="an orange on the top of a carrot, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/an-orange-on-the-top-of-a-carrot-front-view-1.jpg" width="100%" alt="an orange on the top of a carrot, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20orange%20on%20the%20top%20of%20a%20carrot%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/an-orange-on-the-top-of-a-carrot-front-view-1.jpg" width="100%" alt="an orange on the top of a carrot, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a microwave on the top of an oven, front view</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/thumbs/astra/a-microwave-on-the-top-of-an-oven-front-view-3.jpg" width="100%" alt="a microwave on the top of an oven, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus/a-microwave-on-the-top-of-an-oven-front-view-3.jpg" width="100%" alt="a microwave on the top of an oven, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus48/a-microwave-on-the-top-of-an-oven-front-view-3.jpg" width="100%" alt="a microwave on the top of an oven, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/thumbs/sol/a-microwave-on-the-top-of-an-oven-front-view-3.jpg" width="100%" alt="a microwave on the top of an oven, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20microwave%20on%20the%20top%20of%20an%20oven%2C%20front%20view-3.mp4"><img src="docs/thumbs/h3/a-microwave-on-the-top-of-an-oven-front-view-3.jpg" width="100%" alt="a microwave on the top of an oven, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a snowboard on the bottom of a kite, front view</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/a-snowboard-on-the-bottom-of-a-kite-front-view-1.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/a-snowboard-on-the-bottom-of-a-kite-front-view-1.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/a-snowboard-on-the-bottom-of-a-kite-front-view-1.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/a-snowboard-on-the-bottom-of-a-kite-front-view-1.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20snowboard%20on%20the%20bottom%20of%20a%20kite%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/a-snowboard-on-the-bottom-of-a-kite-front-view-1.jpg" width="100%" alt="a snowboard on the bottom of a kite, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a spoon on the right of a bowl, front view</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/a-spoon-on-the-right-of-a-bowl-front-view-1.jpg" width="100%" alt="a spoon on the right of a bowl, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/a-spoon-on-the-right-of-a-bowl-front-view-1.jpg" width="100%" alt="a spoon on the right of a bowl, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/a-spoon-on-the-right-of-a-bowl-front-view-1.jpg" width="100%" alt="a spoon on the right of a bowl, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/a-spoon-on-the-right-of-a-bowl-front-view-1.jpg" width="100%" alt="a spoon on the right of a bowl, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20spoon%20on%20the%20right%20of%20a%20bowl%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/a-spoon-on-the-right-of-a-bowl-front-view-1.jpg" width="100%" alt="a spoon on the right of a bowl, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a sports ball on the right of a baseball bat, front view</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/thumbs/astra/a-sports-ball-on-the-right-of-a-baseball-bat-front-view-3.jpg" width="100%" alt="a sports ball on the right of a baseball bat, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus/a-sports-ball-on-the-right-of-a-baseball-bat-front-view-3.jpg" width="100%" alt="a sports ball on the right of a baseball bat, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/thumbs/opus48/a-sports-ball-on-the-right-of-a-baseball-bat-front-view-3.jpg" width="100%" alt="a sports ball on the right of a baseball bat, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/thumbs/sol/a-sports-ball-on-the-right-of-a-baseball-bat-front-view-3.jpg" width="100%" alt="a sports ball on the right of a baseball bat, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sports%20ball%20on%20the%20right%20of%20a%20baseball%20bat%2C%20front%20view-3.mp4"><img src="docs/thumbs/h3/a-sports-ball-on-the-right-of-a-baseball-bat-front-view-3.jpg" width="100%" alt="a sports ball on the right of a baseball bat, front view — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a tv on the right of a dining table, front view</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/thumbs/astra/a-tv-on-the-right-of-a-dining-table-front-view-1.jpg" width="100%" alt="a tv on the right of a dining table, front view — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus/a-tv-on-the-right-of-a-dining-table-front-view-1.jpg" width="100%" alt="a tv on the right of a dining table, front view — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/thumbs/opus48/a-tv-on-the-right-of-a-dining-table-front-view-1.jpg" width="100%" alt="a tv on the right of a dining table, front view — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/thumbs/sol/a-tv-on-the-right-of-a-dining-table-front-view-1.jpg" width="100%" alt="a tv on the right of a dining table, front view — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20tv%20on%20the%20right%20of%20a%20dining%20table%2C%20front%20view-1.mp4"><img src="docs/thumbs/h3/a-tv-on-the-right-of-a-dining-table-front-view-1.jpg" width="100%" alt="a tv on the right of a dining table, front view — H3"></a></td>
+</tr>
+</table>
+
+### Color
+
+_11 prompts._
+
+<table>
+<tr>
+<th width="20%" align="center"><sub>Astra</sub></th>
+<th width="20%" align="center"><sub>Opus 5.5</sub></th>
+<th width="20%" align="center"><sub>Opus 4.8</sub></th>
+<th width="20%" align="center"><sub>GPT-6.1-Sol</sub></th>
+<th width="20%" align="center"><sub>H3</sub></th>
+</tr>
+<tr>
+<td colspan="5"><b>a blue car</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20blue%20car-0.mp4"><img src="docs/thumbs/astra/a-blue-car-0.jpg" width="100%" alt="a blue car — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20blue%20car-0.mp4"><img src="docs/thumbs/opus/a-blue-car-0.jpg" width="100%" alt="a blue car — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20blue%20car-0.mp4"><img src="docs/thumbs/opus48/a-blue-car-0.jpg" width="100%" alt="a blue car — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20blue%20car-0.mp4"><img src="docs/thumbs/sol/a-blue-car-0.jpg" width="100%" alt="a blue car — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20blue%20car-0.mp4"><img src="docs/thumbs/h3/a-blue-car-0.jpg" width="100%" alt="a blue car — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a green bicycle</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20bicycle-1.mp4"><img src="docs/thumbs/astra/a-green-bicycle-1.jpg" width="100%" alt="a green bicycle — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20bicycle-1.mp4"><img src="docs/thumbs/opus/a-green-bicycle-1.jpg" width="100%" alt="a green bicycle — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20green%20bicycle-1.mp4"><img src="docs/thumbs/opus48/a-green-bicycle-1.jpg" width="100%" alt="a green bicycle — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20bicycle-1.mp4"><img src="docs/thumbs/sol/a-green-bicycle-1.jpg" width="100%" alt="a green bicycle — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20bicycle-1.mp4"><img src="docs/thumbs/h3/a-green-bicycle-1.jpg" width="100%" alt="a green bicycle — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a pink clock</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pink%20clock-0.mp4"><img src="docs/thumbs/astra/a-pink-clock-0.jpg" width="100%" alt="a pink clock — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pink%20clock-0.mp4"><img src="docs/thumbs/opus/a-pink-clock-0.jpg" width="100%" alt="a pink clock — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20pink%20clock-0.mp4"><img src="docs/thumbs/opus48/a-pink-clock-0.jpg" width="100%" alt="a pink clock — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pink%20clock-0.mp4"><img src="docs/thumbs/sol/a-pink-clock-0.jpg" width="100%" alt="a pink clock — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pink%20clock-0.mp4"><img src="docs/thumbs/h3/a-pink-clock-0.jpg" width="100%" alt="a pink clock — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a purple umbrella</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20purple%20umbrella-2.mp4"><img src="docs/thumbs/astra/a-purple-umbrella-2.jpg" width="100%" alt="a purple umbrella — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20purple%20umbrella-2.mp4"><img src="docs/thumbs/opus/a-purple-umbrella-2.jpg" width="100%" alt="a purple umbrella — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20purple%20umbrella-2.mp4"><img src="docs/thumbs/opus48/a-purple-umbrella-2.jpg" width="100%" alt="a purple umbrella — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20purple%20umbrella-2.mp4"><img src="docs/thumbs/sol/a-purple-umbrella-2.jpg" width="100%" alt="a purple umbrella — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20purple%20umbrella-2.mp4"><img src="docs/thumbs/h3/a-purple-umbrella-2.jpg" width="100%" alt="a purple umbrella — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>an orange clock</b> <sub>· VBench code↑ H3↓ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/an%20orange%20clock-0.mp4"><img src="docs/thumbs/astra/an-orange-clock-0.jpg" width="100%" alt="an orange clock — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/an%20orange%20clock-0.mp4"><img src="docs/thumbs/opus/an-orange-clock-0.jpg" width="100%" alt="an orange clock — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/an%20orange%20clock-0.mp4"><img src="docs/thumbs/opus48/an-orange-clock-0.jpg" width="100%" alt="an orange clock — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/an%20orange%20clock-0.mp4"><img src="docs/thumbs/sol/an-orange-clock-0.jpg" width="100%" alt="an orange clock — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/an%20orange%20clock-0.mp4"><img src="docs/thumbs/h3/an-orange-clock-0.jpg" width="100%" alt="an orange clock — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a black car</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20black%20car-1.mp4"><img src="docs/thumbs/astra/a-black-car-1.jpg" width="100%" alt="a black car — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20black%20car-1.mp4"><img src="docs/thumbs/opus/a-black-car-1.jpg" width="100%" alt="a black car — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20black%20car-1.mp4"><img src="docs/thumbs/opus48/a-black-car-1.jpg" width="100%" alt="a black car — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20black%20car-1.mp4"><img src="docs/thumbs/sol/a-black-car-1.jpg" width="100%" alt="a black car — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20black%20car-1.mp4"><img src="docs/thumbs/h3/a-black-car-1.jpg" width="100%" alt="a black car — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a blue bowl</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20blue%20bowl-0.mp4"><img src="docs/thumbs/astra/a-blue-bowl-0.jpg" width="100%" alt="a blue bowl — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20blue%20bowl-0.mp4"><img src="docs/thumbs/opus/a-blue-bowl-0.jpg" width="100%" alt="a blue bowl — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20blue%20bowl-0.mp4"><img src="docs/thumbs/opus48/a-blue-bowl-0.jpg" width="100%" alt="a blue bowl — Opus 4.8"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20blue%20bowl-0.mp4"><img src="docs/thumbs/h3/a-blue-bowl-0.jpg" width="100%" alt="a blue bowl — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a green bowl</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20bowl-2.mp4"><img src="docs/thumbs/astra/a-green-bowl-2.jpg" width="100%" alt="a green bowl — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20bowl-2.mp4"><img src="docs/thumbs/opus/a-green-bowl-2.jpg" width="100%" alt="a green bowl — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20green%20bowl-2.mp4"><img src="docs/thumbs/opus48/a-green-bowl-2.jpg" width="100%" alt="a green bowl — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20bowl-2.mp4"><img src="docs/thumbs/sol/a-green-bowl-2.jpg" width="100%" alt="a green bowl — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20bowl-2.mp4"><img src="docs/thumbs/h3/a-green-bowl-2.jpg" width="100%" alt="a green bowl — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a green clock</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20clock-3.mp4"><img src="docs/thumbs/astra/a-green-clock-3.jpg" width="100%" alt="a green clock — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20clock-3.mp4"><img src="docs/thumbs/opus/a-green-clock-3.jpg" width="100%" alt="a green clock — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20green%20clock-3.mp4"><img src="docs/thumbs/opus48/a-green-clock-3.jpg" width="100%" alt="a green clock — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20clock-3.mp4"><img src="docs/thumbs/sol/a-green-clock-3.jpg" width="100%" alt="a green clock — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20clock-3.mp4"><img src="docs/thumbs/h3/a-green-clock-3.jpg" width="100%" alt="a green clock — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a purple chair</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20purple%20chair-1.mp4"><img src="docs/thumbs/astra/a-purple-chair-1.jpg" width="100%" alt="a purple chair — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20purple%20chair-1.mp4"><img src="docs/thumbs/opus/a-purple-chair-1.jpg" width="100%" alt="a purple chair — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20purple%20chair-1.mp4"><img src="docs/thumbs/opus48/a-purple-chair-1.jpg" width="100%" alt="a purple chair — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20purple%20chair-1.mp4"><img src="docs/thumbs/sol/a-purple-chair-1.jpg" width="100%" alt="a purple chair — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20purple%20chair-1.mp4"><img src="docs/thumbs/h3/a-purple-chair-1.jpg" width="100%" alt="a purple chair — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a white clock</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20white%20clock-1.mp4"><img src="docs/thumbs/astra/a-white-clock-1.jpg" width="100%" alt="a white clock — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20white%20clock-1.mp4"><img src="docs/thumbs/opus/a-white-clock-1.jpg" width="100%" alt="a white clock — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20white%20clock-1.mp4"><img src="docs/thumbs/opus48/a-white-clock-1.jpg" width="100%" alt="a white clock — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20white%20clock-1.mp4"><img src="docs/thumbs/sol/a-white-clock-1.jpg" width="100%" alt="a white clock — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20white%20clock-1.mp4"><img src="docs/thumbs/h3/a-white-clock-1.jpg" width="100%" alt="a white clock — H3"></a></td>
+</tr>
+</table>
+
+### Object class
+
+_6 prompts._
+
+<table>
+<tr>
+<th width="20%" align="center"><sub>Astra</sub></th>
+<th width="20%" align="center"><sub>Opus 5.5</sub></th>
+<th width="20%" align="center"><sub>Opus 4.8</sub></th>
+<th width="20%" align="center"><sub>GPT-6.1-Sol</sub></th>
+<th width="20%" align="center"><sub>H3</sub></th>
+</tr>
+<tr>
+<td colspan="5"><b>a cat</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20cat-3.mp4"><img src="docs/thumbs/astra/a-cat-3.jpg" width="100%" alt="a cat — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20cat-3.mp4"><img src="docs/thumbs/opus/a-cat-3.jpg" width="100%" alt="a cat — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20cat-3.mp4"><img src="docs/thumbs/opus48/a-cat-3.jpg" width="100%" alt="a cat — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20cat-3.mp4"><img src="docs/thumbs/sol/a-cat-3.jpg" width="100%" alt="a cat — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20cat-3.mp4"><img src="docs/thumbs/h3/a-cat-3.jpg" width="100%" alt="a cat — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a dog</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20dog-0.mp4"><img src="docs/thumbs/astra/a-dog-0.jpg" width="100%" alt="a dog — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20dog-0.mp4"><img src="docs/thumbs/opus/a-dog-0.jpg" width="100%" alt="a dog — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20dog-0.mp4"><img src="docs/thumbs/opus48/a-dog-0.jpg" width="100%" alt="a dog — Opus 4.8"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20dog-0.mp4"><img src="docs/thumbs/h3/a-dog-0.jpg" width="100%" alt="a dog — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a person</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20person-0.mp4"><img src="docs/thumbs/astra/a-person-0.jpg" width="100%" alt="a person — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20person-0.mp4"><img src="docs/thumbs/opus/a-person-0.jpg" width="100%" alt="a person — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20person-0.mp4"><img src="docs/thumbs/opus48/a-person-0.jpg" width="100%" alt="a person — Opus 4.8"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20person-0.mp4"><img src="docs/thumbs/sol/a-person-0.jpg" width="100%" alt="a person — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20person-0.mp4"><img src="docs/thumbs/h3/a-person-0.jpg" width="100%" alt="a person — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a pizza</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20pizza-3.mp4"><img src="docs/thumbs/astra/a-pizza-3.jpg" width="100%" alt="a pizza — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20pizza-3.mp4"><img src="docs/thumbs/opus/a-pizza-3.jpg" width="100%" alt="a pizza — Opus 5.5"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20pizza-3.mp4"><img src="docs/thumbs/sol/a-pizza-3.jpg" width="100%" alt="a pizza — GPT-6.1-Sol"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20pizza-3.mp4"><img src="docs/thumbs/h3/a-pizza-3.jpg" width="100%" alt="a pizza — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a sports ball</b> <sub>· VBench code↓ H3↑ · score-reversal case</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20sports%20ball-3.mp4"><img src="docs/thumbs/astra/a-sports-ball-3.jpg" width="100%" alt="a sports ball — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20sports%20ball-3.mp4"><img src="docs/thumbs/opus/a-sports-ball-3.jpg" width="100%" alt="a sports ball — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20sports%20ball-3.mp4"><img src="docs/thumbs/opus48/a-sports-ball-3.jpg" width="100%" alt="a sports ball — Opus 4.8"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20sports%20ball-3.mp4"><img src="docs/thumbs/h3/a-sports-ball-3.jpg" width="100%" alt="a sports ball — H3"></a></td>
+</tr>
+<tr>
+<td colspan="5"><b>a bird</b> <sub>· VBench both high</sub></td>
+</tr>
+<tr>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bird-0.mp4"><img src="docs/thumbs/astra/a-bird-0.jpg" width="100%" alt="a bird — Astra"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bird-0.mp4"><img src="docs/thumbs/opus/a-bird-0.jpg" width="100%" alt="a bird — Opus 5.5"></a></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus48/a%20bird-0.mp4"><img src="docs/thumbs/opus48/a-bird-0.jpg" width="100%" alt="a bird — Opus 4.8"></a></td>
+<td width="20%"></td>
+<td width="20%" align="center" valign="top"><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bird-0.mp4"><img src="docs/thumbs/h3/a-bird-0.jpg" width="100%" alt="a bird — H3"></a></td>
+</tr>
+</table>
+
+## What the labels mean
+
+Each prompt carries the verdict the benchmark is built on, taken from VBench native scoring of the code route against MiniMax-H3:
+
+| Tag | Meaning |
+| --- | --- |
+| VBench code↓ H3↑ | VBench scores the code-rendered route **lower** than the H3 clip |
+| VBench both high | VBench scores both routes high |
+| VBench code↑ H3↓ | VBench scores the code-rendered route **higher** than the H3 clip |
+| score-reversal case | One of 60 prompts where VBench scores the code route and the H3 clip **differently**; this is the *Score reversal* filter on the project page |
+
+Empty cells mean that route was not generated for that prompt.
+
+## Results
+
+Agreement with three-annotator completion labels on the matched set, and ranking of controlled behavioral violations against their unedited originals:
+
+| Judge | Completion agreement | Code false reject | Pixel failed accepted |
+| --- | ---: | ---: | ---: |
+| Native modules | 71.6% | 26.1% | 75.0% |
+| GPT-6.1-Sol (8 frames) | 92.7% | 1.3% | 37.5% |
+| Claude Sonnet 5.5 (8 frames) | **93.9%** | **0%** | 43.8% |
+
+On the 50 controlled behavioral violations, GPT-6.1-Sol ranks the edited clip below its original **50 / 50** across all five violation families; Sonnet ranks **46 / 50**. Native aesthetic rankings also diverge from human visual preference. Full tables ship with the code release.
+
+## Release
+
+| Asset | Status |
+| --- | --- |
+| Gallery videos (this README) | live on the [project page](https://openraiser.github.io/CodingVBench/) |
+| Eval code | coming soon |
+| 360 matched videos + majority / raw labels | coming soon |
+| 60 controlled pairs with scene programs | coming soon |
+| Frozen VLM prompts, frame sampling, score→decision rules | coming soon |
+
+## Citation
+
+```bibtex
+@article{codingvbench2026,
+  title   = {CodingVBench: Rethinking Video Quality Evaluation Beyond Generative Models},
+  author  = {Anonymous},
+  journal = {arXiv preprint},
+  year    = {2026}
+}
+```
+
+## License
+
+[MIT](LICENSE).
