@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://openraiser.github.io/CodingVBench/"><img src="https://img.shields.io/badge/Project-Page-1a6fd4" alt="Project page"></a>
-  <a href="#gallery"><img src="https://img.shields.io/badge/Gallery-944%20prompts%20%C2%B7%203768%20clips-0f8f86" alt="Gallery: 944 prompts, 3768 clips"></a>
+  <a href="#gallery"><img src="https://img.shields.io/badge/Gallery-4%20routes-0f8f86" alt="Gallery"></a>
   <img src="https://img.shields.io/badge/Data-coming%20soon-FFB000?logo=huggingface&logoColor=white" alt="Data coming soon">
   <img src="https://img.shields.io/badge/Paper-coming%20soon-lightgrey" alt="Paper coming soon">
 </p>
@@ -23,7 +23,7 @@ CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched
 
 | | |
 | --- | --- |
-| Gallery below | 944 VBench prompts × 4 routes, 3768 clips (111 with human labels) |
+| Gallery below | Every VBench prompt the four routes were run on, side by side |
 | Matched set | 360 videos on 120 VBench prompts (Astra, Opus 5.5, MiniMax-H3), 3 annotators |
 | Controlled pairs | 50 behavioral violations + 10 hue-only edits, verified scene programs |
 | Judges | Native UMT / GRiT / LAION modules vs frozen 8-frame GPT-6.1-Sol and Claude Sonnet 5.5 |
@@ -31,17 +31,17 @@ CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched
 ## Contents
 
 - [Gallery](#gallery)
-  - [Human action](#human-action) (100)
-  - [Multiple objects](#multiple-objects) (82)
-  - [Spatial relationship](#spatial-relationship) (84)
-  - [Color](#color) (85)
-  - [Object class](#object-class) (79)
-  - [Scene](#scene) (86)
-  - [Appearance style](#appearance-style) (90)
-  - [Temporal style](#temporal-style) (100)
-  - [Overall consistency](#overall-consistency) (91)
-  - [Subject consistency](#subject-consistency) (72)
-  - [Temporal flickering](#temporal-flickering) (75)
+  - [Human action](#human-action)
+  - [Multiple objects](#multiple-objects)
+  - [Spatial relationship](#spatial-relationship)
+  - [Color](#color)
+  - [Object class](#object-class)
+  - [Scene](#scene)
+  - [Appearance style](#appearance-style)
+  - [Temporal style](#temporal-style)
+  - [Overall consistency](#overall-consistency)
+  - [Subject consistency](#subject-consistency)
+  - [Temporal flickering](#temporal-flickering)
 - [What the labels mean](#what-the-labels-mean)
 - [Results](#results)
 - [Release](#release)
@@ -49,13 +49,11 @@ CodingVBench freezes the videos and varies the evaluator. It pairs **360 matched
 
 ## Gallery
 
-Every VBench prompt the four routes were run on, **944 prompts**, one run each. Every clip is a 2-second loop stamped with its route, always in the same order: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**. Prompts from the human-labelled matched set come first in each category and carry the benchmark tag; click any of those to open the full video on the [project page](https://openraiser.github.io/CodingVBench/). Each category shows 4 prompts; the rest are one click away.
+Every VBench prompt the four routes were run on, one run each. Every clip is a 2-second loop stamped with its route, always in the same order: **MiniMax H3 · GPT-6 Astra · Opus 5.5 · GPT-6.1-Sol**. Prompts from the human-labelled matched set come first in each category and carry the benchmark tag; click any of those to open the full video on the [project page](https://openraiser.github.io/CodingVBench/). Each category opens with a few prompts; the rest are one click away.
 
 Opus 4.8 clips are on the project page but not shown here.
 
 ### Human action
-
-<sub>100 prompts · 40 human-labelled</sub>
 
 **A person is air drumming** <sub>· ↻ VBench code↑ H3↓</sub>
 
@@ -73,7 +71,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/h3/0128.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/astra/0128.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/opus/0128.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/A%20person%20is%20bandaging-4.mp4"><img src="docs/previews/sol/0128.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-<details><summary><b>Show the other 96 human action prompts</b></summary>
+<details><summary><b>Show more human action prompts</b></summary>
 
 **A person is bending back** <sub>· ↻ VBench code↑ H3↓</sub>
 
@@ -465,8 +463,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Multiple objects
 
-<sub>82 prompts · 21 human-labelled</sub>
-
 **a banana and a keyboard** <sub>· VBench both high</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/h3/0425.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/astra/0425.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/opus/0425.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20banana%20and%20a%20keyboard-2.mp4"><img src="docs/previews/sol/0425.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
@@ -483,7 +479,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/h3/0522.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/astra/0522.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/opus/0522.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20chair%20and%20a%20couch-0.mp4"><img src="docs/previews/sol/0522.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-<details><summary><b>Show the other 78 multiple objects prompts</b></summary>
+<details><summary><b>Show more multiple objects prompts</b></summary>
 
 **a clock and a backpack** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -803,8 +799,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Spatial relationship
 
-<sub>84 prompts · 28 human-labelled</sub>
-
 **a baseball glove on the right of a tennis racket, front view** <sub>· ↻ VBench code↓ H3↑</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/h3/0433.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/astra/0433.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/opus/0433.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20baseball%20glove%20on%20the%20right%20of%20a%20tennis%20racket%2C%20front%20view-0.mp4"><img src="docs/previews/sol/0433.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
@@ -821,7 +815,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0491.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0491.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0491.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0491.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 80 spatial relationship prompts</b></summary>
+<details><summary><b>Show more spatial relationship prompts</b></summary>
 
 **a car on the right of a motorcycle, front view** <sub>· ↻ VBench code↓ H3↑</sub>
 
@@ -1149,8 +1143,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Color
 
-<sub>85 prompts · 11 human-labelled</sub>
-
 **a black car** <sub>· VBench both high</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20black%20car-1.mp4"><img src="docs/previews/h3/0463.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20black%20car-1.mp4"><img src="docs/previews/astra/0463.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20black%20car-1.mp4"><img src="docs/previews/opus/0463.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20black%20car-1.mp4"><img src="docs/previews/sol/0463.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
@@ -1167,7 +1159,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20green%20bicycle-1.mp4"><img src="docs/previews/h3/0571.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20green%20bicycle-1.mp4"><img src="docs/previews/astra/0571.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20green%20bicycle-1.mp4"><img src="docs/previews/opus/0571.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20green%20bicycle-1.mp4"><img src="docs/previews/sol/0571.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-<details><summary><b>Show the other 81 color prompts</b></summary>
+<details><summary><b>Show more color prompts</b></summary>
 
 **a green bowl** <sub>· VBench both high</sub>
 
@@ -1499,8 +1491,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Object class
 
-<sub>79 prompts · 11 human-labelled</sub>
-
 **a bird** <sub>· VBench both high · no GPT-6.1-Sol clip</sub>
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20bird-0.mp4"><img src="docs/previews/h3/0459.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20bird-0.mp4"><img src="docs/previews/astra/0459.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20bird-0.mp4"><img src="docs/previews/opus/0459.webp" width="24%" alt="Opus 5.5"></a></p>
@@ -1517,7 +1507,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><a href="https://openraiser.github.io/CodingVBench/gallery/videos/h3/a%20cat-3.mp4"><img src="docs/previews/h3/0519.webp" width="24%" alt="MiniMax H3"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/astra/a%20cat-3.mp4"><img src="docs/previews/astra/0519.webp" width="24%" alt="GPT-6 Astra"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/opus/a%20cat-3.mp4"><img src="docs/previews/opus/0519.webp" width="24%" alt="Opus 5.5"></a> <a href="https://openraiser.github.io/CodingVBench/gallery/videos/sol/a%20cat-3.mp4"><img src="docs/previews/sol/0519.webp" width="24%" alt="GPT-6.1-Sol"></a></p>
 
-<details><summary><b>Show the other 75 object class prompts</b></summary>
+<details><summary><b>Show more object class prompts</b></summary>
 
 **a dog** <sub>· ↻ VBench code↓ H3↑ · no GPT-6.1-Sol clip</sub>
 
@@ -1825,8 +1815,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Scene
 
-<sub>86 prompts</sub>
-
 **alley**
 
 <p><img src="docs/previews/h3/0803.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0803.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0803.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0803.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -1843,7 +1831,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0844.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0844.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0844.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0844.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 82 scene prompts</b></summary>
+<details><summary><b>Show more scene prompts</b></summary>
 
 **art gallery**
 
@@ -2179,8 +2167,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Appearance style
 
-<sub>90 prompts</sub>
-
 **A beautiful coastal beach in spring, waves lapping on sand by Hokusai, in the style of Ukiyo**
 
 <p><img src="docs/previews/h3/0002.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0002.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0002.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0002.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -2197,7 +2183,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0008.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0008.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0008.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0008.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 86 appearance style prompts</b></summary>
+<details><summary><b>Show more appearance style prompts</b></summary>
 
 **A beautiful coastal beach in spring, waves lapping on sand, oil painting**
 
@@ -2549,8 +2535,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Temporal style
 
-<sub>100 prompts</sub>
-
 **A beautiful coastal beach in spring, waves lapping on sand, featuring a steady and smooth perspective**
 
 <p><img src="docs/previews/h3/0007.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0007.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0007.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0007.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -2567,7 +2551,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0012.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0012.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0012.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0012.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 96 temporal style prompts</b></summary>
+<details><summary><b>Show more temporal style prompts</b></summary>
 
 **A beautiful coastal beach in spring, waves lapping on sand, racking focus**
 
@@ -2959,8 +2943,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Overall consistency
 
-<sub>91 prompts</sub>
-
 **A 3D model of a 1800s victorian house.**
 
 <p><img src="docs/previews/h3/0000.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0000.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0000.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0000.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -2977,7 +2959,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0043.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0043.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0043.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0043.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 87 overall consistency prompts</b></summary>
+<details><summary><b>Show more overall consistency prompts</b></summary>
 
 **A boat sailing leisurely along the Seine River with the Eiffel Tower in background by Vincent van Gogh**
 
@@ -3333,8 +3315,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Subject consistency
 
-<sub>72 prompts</sub>
-
 **a bear catching a salmon in its powerful jaws**
 
 <p><img src="docs/previews/h3/0436.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0436.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0436.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0436.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -3351,7 +3331,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0440.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0440.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0440.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0440.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 68 subject consistency prompts</b></summary>
+<details><summary><b>Show more subject consistency prompts</b></summary>
 
 **a bicycle accelerating to gain speed**
 
@@ -3631,8 +3611,6 @@ Opus 4.8 clips are on the project page but not shown here.
 
 ### Temporal flickering
 
-<sub>75 prompts</sub>
-
 **a dilapidated phone booth stood as a relic of a bygone era on the sidewalk, frozen in time**
 
 <p><img src="docs/previews/h3/0540.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0540.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0540.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0540.webp" width="24%" alt="GPT-6.1-Sol"></p>
@@ -3649,7 +3627,7 @@ Opus 4.8 clips are on the project page but not shown here.
 
 <p><img src="docs/previews/h3/0238.webp" width="24%" alt="MiniMax H3"> <img src="docs/previews/astra/0238.webp" width="24%" alt="GPT-6 Astra"> <img src="docs/previews/opus/0238.webp" width="24%" alt="Opus 5.5"> <img src="docs/previews/sol/0238.webp" width="24%" alt="GPT-6.1-Sol"></p>
 
-<details><summary><b>Show the other 71 temporal flickering prompts</b></summary>
+<details><summary><b>Show more temporal flickering prompts</b></summary>
 
 **A tranquil tableau of a beautiful, handcrafted ceramic bowl**
 
